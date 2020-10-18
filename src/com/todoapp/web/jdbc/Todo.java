@@ -35,7 +35,7 @@ public class Todo {
 	public User getIdinstructor() {
 		return idinstructor;
 	}
-
+	
 	public void setIdinstructor(User idinstructor) {
 		this.idinstructor = idinstructor;
 	}

@@ -13,5 +13,23 @@
 		
 		
 		<!-- student -->
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Instructor</th>
+				<th scope="col">To do</th>
+			</tr>
+		</thead>
+		<!-- for (Todo todo : classe.todos) -->
+		<!-- <tr>
+			<th scope="col">#</th>
+			<td>todo.Idinstructor</td>
+			<td>todo.description</td>
+		</tr> -->
+	</table>
 	</body>
 </html>
+
+
+
