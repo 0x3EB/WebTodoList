@@ -1,5 +1,8 @@
 package com.todoapp.web.jdbc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
 	private int id;
 	private String username;
@@ -7,11 +10,13 @@ public class User {
 	private String email;
 	private Role idrole;
 	private Class idclass;
+	private List<Class> classes;
 
 	public User(String username, String password, Role idrole) {
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
+		this.classes = new ArrayList<>();
 	}
 
 	public User(String username, String password, Role idrole, Class idclass) {
@@ -19,6 +24,7 @@ public class User {
 		this.password = password;
 		this.idrole = idrole;
 		this.idclass = idclass;
+		this.classes = new ArrayList<>();
 	}
 
 	public User(String username, String password, Role idrole, Class idclass, String email) {
@@ -27,6 +33,7 @@ public class User {
 		this.idrole = idrole;
 		this.idclass = idclass;
 		this.email = email;
+		this.classes = new ArrayList<>();
 	}
 
 	public User(String username, String password, Role idrole, String email) {
@@ -34,6 +41,7 @@ public class User {
 		this.password = password;
 		this.idrole = idrole;
 		this.email = email;
+		this.classes = new ArrayList<>();
 	}
 
 	public int getId() {
@@ -89,4 +97,11 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
 	}
 
+	public void addClass(Class Class) {
+		classes.add(Class);
+	}
+	
+	public List<Class> getEleves() {
+		return classes;
+	}
 }

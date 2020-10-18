@@ -1,12 +1,19 @@
 package com.todoapp.web.jdbc;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Class {
 	private int id;
 	private String name;
+	private List<User> eleves;
 
+	
 	public Class(int id, String name) {
 		this.id = id;
 		this.name = name;
+		this.eleves = new ArrayList<>();
 	}
 
 	public Class(String name) {
@@ -32,5 +39,13 @@ public class Class {
 	@Override
 	public String toString() {
 		return "Class [id=" + id + ", name=" + name + "]";
+	}
+	
+	public void addEleve(User eleve) {
+		eleves.add(eleve);
+	}
+	
+	public List<User> getEleves() {
+		return eleves;
 	}
 }
