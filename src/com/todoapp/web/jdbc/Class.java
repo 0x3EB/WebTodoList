@@ -8,12 +8,13 @@ public class Class {
 	private int id;
 	private String name;
 	private List<User> eleves;
-
+	private List<Todo> todos;
 	
 	public Class(int id, String name) {
 		this.id = id;
 		this.name = name;
 		this.eleves = new ArrayList<>();
+		this.todos = new ArrayList<>();
 	}
 
 	public Class(String name) {
@@ -47,5 +48,13 @@ public class Class {
 	
 	public List<User> getEleves() {
 		return eleves;
+	}
+	
+	public void addTodo(Todo todo) {
+		todos.add(todo);
+	}
+	
+	public List<Todo> getTodos() {
+		return todos;
 	}
 }

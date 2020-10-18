@@ -101,7 +101,7 @@ public class User {
 		classes.add(Class);
 	}
 	
-	public List<Class> getEleves() {
+	public List<Class> getClasses() {
 		return classes;
 	}
 }
