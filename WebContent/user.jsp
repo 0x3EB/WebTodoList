@@ -9,20 +9,33 @@
 	</head>
 	<body>
 		<!-- instructor -->
-		
+	<table class="table">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">To do</th>
+				<th scope="col">classes</th>
+			</tr>
+		</thead> 
+		<!-- for (Todo todo : classe.todos) -->
+		<!--<tr>
+			<th scope="col">#</th>
+			<td>todo.Idinstructor</td>
+			<td>todo.description</td>
+		</tr> -->	
 		
 		
 		<!-- student -->
-	<table class="table">
+	<!--<table class="table">
 		<thead class="thead-dark">
 			<tr>
 				<th scope="col">#</th>
 				<th scope="col">Instructor</th>
 				<th scope="col">To do</th>
 			</tr>
-		</thead>
+		</thead> -->
 		<!-- for (Todo todo : classe.todos) -->
-		<!-- <tr>
+		<!--<tr>
 			<th scope="col">#</th>
 			<td>todo.Idinstructor</td>
 			<td>todo.description</td>
