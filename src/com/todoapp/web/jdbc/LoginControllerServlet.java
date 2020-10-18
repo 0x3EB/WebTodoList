@@ -18,7 +18,7 @@ public class LoginControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
 
-	@Resource(name = "jdbc/studentdb")
+	@Resource(name = "jdbc/todolist")
 	private DataSource dataSource;
 
 	@Override
