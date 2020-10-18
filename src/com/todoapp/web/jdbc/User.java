@@ -12,6 +12,21 @@ public class User {
 	private Class idclass;
 	private List<Class> classes;
 
+	public User(int id, String username, String password, Role idrole) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.idrole = idrole;
+	}
+	
+	public User(int id, String username, String password, Role idrole, List<Class> listClass) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.idrole = idrole;
+		this.classes = listClass;
+	}
+	
 	public User(String username, String password, Role idrole) {
 		this.username = username;
 		this.password = password;
@@ -94,7 +109,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + " " + classes.size()+"]";
 	}
 
 	public void addClass(Class Class) {

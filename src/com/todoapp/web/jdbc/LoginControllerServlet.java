@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -45,7 +46,12 @@ public class LoginControllerServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 
-		tododbutil.checkUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
+		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), request.getParameter("password"))) {
+			tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
+			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
+			HttpSession session = request.getSession();
+			session.setAttribute("user", user);
+		}
 		doGet(request, response);
 	}
 
