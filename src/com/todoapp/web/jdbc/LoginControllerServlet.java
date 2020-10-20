@@ -51,8 +51,8 @@ public class LoginControllerServlet extends HttpServlet {
 			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
+			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
 		}
-		doGet(request, response);
 	}
 
 }

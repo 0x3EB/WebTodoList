@@ -9,8 +9,8 @@ public class User {
 	private String password;
 	private String email;
 	private Role idrole;
-	private Class idclass;
-	private List<Class> classes;
+	private Classroom idclass;
+	private List<Classroom> classes;
 
 	public User(int id, String username, String password, Role idrole) {
 		this.id = id;
@@ -19,7 +19,7 @@ public class User {
 		this.idrole = idrole;
 	}
 	
-	public User(int id, String username, String password, Role idrole, List<Class> listClass) {
+	public User(int id, String username, String password, Role idrole, List<Classroom> listClass) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -34,7 +34,7 @@ public class User {
 		this.classes = new ArrayList<>();
 	}
 
-	public User(String username, String password, Role idrole, Class idclass) {
+	public User(String username, String password, Role idrole, Classroom idclass) {
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
@@ -42,7 +42,7 @@ public class User {
 		this.classes = new ArrayList<>();
 	}
 
-	public User(String username, String password, Role idrole, Class idclass, String email) {
+	public User(String username, String password, Role idrole, Classroom idclass, String email) {
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
@@ -99,11 +99,11 @@ public class User {
 		this.idrole = idrole;
 	}
 
-	public Class getIdclass() {
+	public Classroom getIdclass() {
 		return idclass;
 	}
 
-	public void setIdclass(Class idclass) {
+	public void setIdclass(Classroom idclass) {
 		this.idclass = idclass;
 	}
 
@@ -112,11 +112,11 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + " " + classes.size()+"]";
 	}
 
-	public void addClass(Class Class) {
+	public void addClass(Classroom Class) {
 		classes.add(Class);
 	}
 	
-	public List<Class> getClasses() {
+	public List<Classroom> getClasses() {
 		return classes;
 	}
 }

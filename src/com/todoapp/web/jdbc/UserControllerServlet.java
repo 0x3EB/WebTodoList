@@ -1,6 +1,7 @@
 package com.todoapp.web.jdbc;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,10 +22,9 @@ public class UserControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private TododbUtil tododbutil;
-	
-	@Resource(name="jdbc/studentdb")
+
+	@Resource(name = "jdbc/todolist")
 	private DataSource dataSource;
-	
 
 	@Override
 	public void init() throws ServletException {
@@ -34,33 +34,27 @@ public class UserControllerServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		try {
-			display(request,response);
-			} catch (Exception e) {
-			// TODO Auto-generated catch block
-				response.getWriter().println("Pas d'utilisateur en session, ou probleme dans user.jsp 'The type Class is ambiguous'");
-			}		
-	}
-	
-	private void display(HttpServletRequest request, HttpServletResponse response) throws Exception{
-//			HttpSession session = request.getSession();
-//			User user = (User) session.getAttribute("user");
-//			if (user.getIdrole().getLibelle()=="student") {
-//				List<Todo> todos = user.getIdclass().getTodos();
-//				request.setAttribute("todos", todos);
-//				request.setAttribute("role", user.getIdrole().getLibelle());
-//			}
-//			else if(user.getIdrole().getLibelle()=="instructor") {
-//				List<Class> classes = user.getClasses();
-//				request.setAttribute("classes", classes);
-//				request.setAttribute("role", user.getIdrole().getLibelle());
-//			}
-			request.getRequestDispatcher("/user.jsp").forward(request, response);
+			HttpSession session = request.getSession();
+			User u = (User) session.getAttribute("user");
+			List<Todo> lst = new ArrayList<Todo>();
+			if (u.getIdrole().getLibelle().equals("Instructor")) {
+				lst = tododbutil.getInstructorTodo(u);
+			} else {
+				lst = tododbutil.getStudentTodo(u);
 			}
-
-
+			request.setAttribute("TODO_LIST", lst);
+			request.getRequestDispatcher("/user.jsp").forward(request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			response.getWriter()
+					.println("Pas d'utilisateur en session, ou probleme dans user.jsp 'The type Class is ambiguous'");
+		}
+	}
 }

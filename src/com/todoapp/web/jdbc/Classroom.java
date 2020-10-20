@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Class {
+public class Classroom {
 	private int id;
 	private String name;
 	private List<User> eleves;
 	private List<Todo> todos;
 	
-	public Class(int id, String name) {
+	public Classroom(int id, String name) {
 		this.id = id;
 		this.name = name;
 		this.eleves = new ArrayList<>();
 		this.todos = new ArrayList<>();
 	}
 
-	public Class(String name) {
+	public Classroom(String name) {
 		this.name = name;
 	}
 
