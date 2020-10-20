@@ -57,10 +57,10 @@ public class TododbUtil {
 				ResultSet result2 = myStmt.executeQuery();
 				if (result2.next()) {
 					Role r = new Role(Integer.parseInt(result2.getString("id")), result2.getString("libelle"));
-					if (r.getLibelle().equals("Student"))
+					if (r.getLibelle().toUpperCase().equals(Role.STUDENT))
 						u = new User(Integer.parseInt(result.getString("id")), result.getString("username"),
 								result.getString("password"), r);
-					else {
+					else if (r.getLibelle().toUpperCase().equals(Role.INSTRUCTOR)){
 						List<Classroom> listClasses = new ArrayList<Classroom>();
 						String sqlClasses = "select * from instructorclasses where idInstructor = ?";
 						myStmt = myConn.prepareStatement(sqlClasses);

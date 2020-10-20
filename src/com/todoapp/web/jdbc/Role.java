@@ -3,6 +3,8 @@ package com.todoapp.web.jdbc;
 public class Role {
 	private int id;
 	private String libelle;
+	public static final String STUDENT = "STUDENT";
+	public static final String INSTRUCTOR = "INSTRUCTOR";
 
 	public Role(int id, String libelle) {
 		this.id = id;

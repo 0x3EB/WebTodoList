@@ -43,9 +43,9 @@ public class UserControllerServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			User u = (User) session.getAttribute("user");
 			List<Todo> lst = new ArrayList<Todo>();
-			if (u.getIdrole().getLibelle().equals("Instructor")) {
+			if (u.getIdrole().getLibelle().toUpperCase().equals(Role.INSTRUCTOR)) {
 				lst = tododbutil.getInstructorTodo(u);
-			} else {
+			} else if (u.getIdrole().getLibelle().toUpperCase().equals(Role.STUDENT)) {
 				lst = tododbutil.getStudentTodo(u);
 			}
 			request.setAttribute("TODO_LIST", lst);
