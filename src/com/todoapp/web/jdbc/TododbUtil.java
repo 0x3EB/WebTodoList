@@ -93,6 +93,36 @@ public class TododbUtil {
 
 	public List<Todo> getStudentTodo(User u) {
 		List<Todo> listTodos = new ArrayList<Todo>();
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		PreparedStatement myStmt1 = null;
+		PreparedStatement myStmt2 = null;
+		String sql;
+		try {
+			myConn = dataSource.getConnection();
+			sql = "SELECT * FROM user WHERE id=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, Integer.toString(u.getId()));
+			ResultSet classroom = myStmt.executeQuery();
+			sql = "SELECT * FROM todoclass WHERE idClass=1";
+			myStmt1 = myConn.prepareStatement(sql);
+//			myStmt1.setString(1, classroom.getString("idClass"));
+			ResultSet result = myStmt1.executeQuery();
+			while (result.next()) {
+				sql = "SELECT * FROM todo where id=1";
+				myStmt2 = myConn.prepareStatement(sql);
+//				myStmt2.setString(1, result.getString("idtodo"));
+				ResultSet res = myStmt2.executeQuery();
+				while (res.next()) {
+					Todo t = new Todo(res.getString("description"), u);
+					listTodos.add(t);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(null, myStmt, null);
+		}
 		return listTodos;
 	}
 
