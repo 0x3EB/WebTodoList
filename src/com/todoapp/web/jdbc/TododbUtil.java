@@ -3,6 +3,7 @@ package com.todoapp.web.jdbc;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +141,21 @@ public class TododbUtil {
 			close(myConn, myStmt, null);
 		}
 		return listTodos;
+	}
+	
+	public void addTodo(Todo t) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "INSERT INTO todo(description,idInstructor) VALUES (?,?)";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, t.getDescription());
+			preparedStmt.setString(2, Integer.toString(t.getIdinstructor().getId()));
+			preparedStmt.executeUpdate();
+			myConn.close();
+		} catch (Exception e) {
+			System.err.println("Got an exception! ");
+			System.err.println(e.getMessage());
+		}
 	}
 
 	private void close(Connection myConn, Statement myStmt, ResultSet myRs) {
