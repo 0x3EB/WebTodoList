@@ -43,12 +43,17 @@ public class UserControllerServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			User u = (User) session.getAttribute("user");
 			List<Todo> lst = new ArrayList<Todo>();
+			String role = null;
 			if (u.getIdrole().getLibelle().toUpperCase().equals(Role.INSTRUCTOR)) {
 				lst = tododbutil.getInstructorTodo(u);
+				role="instructor";
 			} else if (u.getIdrole().getLibelle().toUpperCase().equals(Role.STUDENT)) {
 				lst = tododbutil.getStudentTodo(u);
+				role="student";
 			}
 			request.setAttribute("TODO_LIST", lst);
+			request.setAttribute("role", role);
+			request.setAttribute("name", u.getUsername());
 			request.getRequestDispatcher("/user.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

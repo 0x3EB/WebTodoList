@@ -7,19 +7,30 @@
 	</head>
 
 	<body>
-	<div id="container">
-		<div id="content">
-			<table>
-				<tr>
-					<th>Description</th>
-				</tr>
-				<c:forEach var="todo" items="${TODO_LIST }">
-					<tr>
-						<td>${todo.description}</td>
-					</tr>
-				</c:forEach>
-			</table>
+	
+	
+		<div class="container">
+			<h2>Bonjour ${name } </h2>
+			<div class="container">
+				<table class="table">
+					<thead class="thead-dark">
+						<tr>
+							<th>#</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<c:forEach var="todo" items="${TODO_LIST }">
+						<tr>
+							<td></td>
+							<td>${todo.description}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
 		</div>
+		
+	
+	
 	</body>
 </html>
 
