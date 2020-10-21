@@ -28,7 +28,7 @@ public class TododbUtil {
 			myStmt.setString(2, emailOrUsername);
 			myStmt.setString(3, emailOrUsername);
 			ResultSet result = myStmt.executeQuery();
-			rs = result.next();
+			rs = result.next() ;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {

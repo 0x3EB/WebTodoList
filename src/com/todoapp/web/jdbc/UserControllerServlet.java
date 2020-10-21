@@ -49,7 +49,7 @@ public class UserControllerServlet extends HttpServlet {
 				role="instructor";
 			} else if (u.getIdrole().getLibelle().toUpperCase().equals(Role.STUDENT)) {
 				lst = tododbutil.getStudentTodo(u);
-				role="student";
+				role="student" ;
 			}
 			request.setAttribute("TODO_LIST", lst);
 			request.setAttribute("role", role);

@@ -10,7 +10,7 @@
 	
 	
 		<div class="container">
-			<h2>Bonjour ${name } </h2>
+			<h2>Bonjour ${name} </h2>
 			<div class="container">
 				<table class="table">
 					<thead class="thead-dark">
