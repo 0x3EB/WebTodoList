@@ -68,7 +68,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<form>
+					<form action="/WebTodoList/addTodoControllerServlet" method="post">
 						<div class="form-group">
 							<label for="recipient-name" class="col-form-label">Class:</label>
 							<select class="form-control"
@@ -83,13 +83,15 @@
 							<textarea class="form-control" id="description"
 								name="description"></textarea>
 						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
+						<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary">Add</button>
+					<button type="submit" class="btn btn-primary">Add</button>
 				</div>
+					</form>
+					
+				</div>
+				
 			</div>
 		</div>
 	</div>

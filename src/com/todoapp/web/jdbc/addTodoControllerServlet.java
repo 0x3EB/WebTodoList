@@ -42,7 +42,7 @@ public class addTodoControllerServlet extends HttpServlet {
 		}catch(Exception e) {
 			System.err.println(e.getMessage());
 		}
-		doGet(request, response);
+		response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
 	}
 
 }
