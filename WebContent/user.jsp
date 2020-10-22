@@ -29,7 +29,7 @@
 				<div class="col-12">
 					<a href="UserControllerServlet"
 						class="btn btn-success alignright fa fa-plus" data-toggle="modal"
-						data-target="#exampleModal" role="button"></a>
+						data-target="#newTodoModal" role="button"></a>
 					<table class="table table-striped table-bordered table-sm"
 						data-toggle="table" data-search="true" data-pagination="true">
 						<thead>
@@ -47,8 +47,31 @@
 									<td><a href="UserControllerServlet"
 										class="btn btn-primary fa fa-eye" role="button"></a> <a
 										href="#" class="btn btn-info fa fa-edit" role="button"></a> <a
-										href="#" class="btn btn-danger fa fa-trash" role="button"></a></td>
+										href="#" class="btn btn-danger fa fa-trash" role="button"
+										data-toggle="modal" data-target="#deleteModal"></a></td>
 								</tr>
+								<div class="modal fade" id="deleteModal" tabindex="-1"
+									role="dialog" aria-labelledby="exampleModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Deleting
+													Confirmation</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">Are you sure you you want to delete this ToDo?</div>
+											<div class="modal-footer">
+												<a class="btn btn-secondary"
+													data-dismiss="modal">Cancel</a>
+												<a class="btn btn-success" href="#">Yes</a>
+											</div>
+										</div>
+									</div>
+								</div>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -56,8 +79,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="newTodoModal" tabindex="-1" role="dialog"
+		aria-labelledby="newTodoLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -71,10 +94,9 @@
 					<form action="/WebTodoList/addTodoControllerServlet" method="post">
 						<div class="form-group">
 							<label for="recipient-name" class="col-form-label">Class:</label>
-							<select class="form-control"
-								id="class" name="class">
+							<select class="form-control" id="class" name="class">
 								<c:forEach var="classroom" items="${CLASSROOMS_LIST}">
-								<option>${classroom.name}</option>
+									<option>${classroom.name}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -84,17 +106,16 @@
 								name="description"></textarea>
 						</div>
 						<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-primary">Add</button>
-				</div>
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Add</button>
+						</div>
 					</form>
-					
 				</div>
-				
 			</div>
 		</div>
 	</div>
+
 	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
