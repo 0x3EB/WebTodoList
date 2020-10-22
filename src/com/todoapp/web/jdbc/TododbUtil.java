@@ -143,6 +143,27 @@ public class TododbUtil {
 		return listTodos;
 	}
 	
+	public List<Classroom> getAllClassroom() {
+		List<Classroom> lst = new ArrayList<Classroom>();
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "select * from class";
+			myStmt = myConn.prepareStatement(sql);
+			ResultSet result = myStmt.executeQuery();
+			while (result.next()) {
+				Classroom c = new Classroom(result.getString("name"));
+				lst.add(c);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(myConn, myStmt, null);
+		}
+		return lst;
+	}
+	
 	public void addTodo(Todo t) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {

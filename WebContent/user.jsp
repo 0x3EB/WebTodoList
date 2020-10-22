@@ -73,11 +73,9 @@
 							<label for="recipient-name" class="col-form-label">Class:</label>
 							<select class="form-control"
 								id="class" name="class">
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
+								<c:forEach var="classroom" items="${CLASSROOMS_LIST}">
+								<option>${classroom.name}</option>
+								</c:forEach>
 							</select>
 						</div>
 						<div class="form-group">

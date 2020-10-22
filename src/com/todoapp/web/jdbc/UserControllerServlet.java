@@ -52,7 +52,7 @@ public class UserControllerServlet extends HttpServlet {
 				role="student" ;
 			}
 			request.setAttribute("TODO_LIST", lst);
-			request.setAttribute("role", role);
+			request.setAttribute("CLASSROOMS_LIST", tododbutil.getAllClassroom());
 			request.setAttribute("name", u.getUsername());
 			request.getRequestDispatcher("/user.jsp").forward(request, response);
 		} catch (Exception e) {
