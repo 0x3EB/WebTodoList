@@ -45,9 +45,10 @@
 									<td>${todo.id}</td>
 									<td>${todo.description}</td>
 									<td><a href="UserControllerServlet"
-										class="btn btn-primary fa fa-eye" role="button"></a> <a
-										href="#" class="btn btn-info fa fa-edit" role="button"></a> <a
-										href="#" class="btn btn-danger fa fa-trash" role="button"
+										class="btn btn-primary fa fa-eye" role="button"
+										data-toggle="modal" data-target="#largeModal-${todo.id}"></a>
+										<a href="#" class="btn btn-info fa fa-edit" role="button"></a>
+										<a href="#" class="btn btn-danger fa fa-trash" role="button"
 										data-toggle="modal" data-target="#deleteModal"></a></td>
 								</tr>
 								<div class="modal fade" id="deleteModal" tabindex="-1"
@@ -63,11 +64,31 @@
 													<span aria-hidden="true">&times;</span>
 												</button>
 											</div>
-											<div class="modal-body">Are you sure you you want to delete this ToDo?</div>
+											<div class="modal-body">Are you sure you you want to
+												delete this ToDo?</div>
 											<div class="modal-footer">
-												<a class="btn btn-secondary"
-													data-dismiss="modal">Cancel</a>
+												<a class="btn btn-secondary" data-dismiss="modal">Cancel</a>
 												<a class="btn btn-success" href="#">Yes</a>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal fade bd-visu-modal-lg"
+									id="largeModal-${todo.id}" tabindex="-1" role="dialog"
+									aria-labelledby="myLargeModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">Details
+													of the ToDo n° ${todo.id}</h5>
+												<button type="button" class="close" data-dismiss="modal"
+													aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body"></div>
+											<div class="modal-footer">
+												<a class="btn btn-secondary" data-dismiss="modal">Close</a>
 											</div>
 										</div>
 									</div>
