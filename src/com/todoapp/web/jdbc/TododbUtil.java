@@ -109,7 +109,7 @@ public class TododbUtil {
 				myStmt1.setString(1, result.getString("idtodo"));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
-					Todo t = new Todo(res.getString("description"), u);
+					Todo t = new Todo(Integer.parseInt(res.getString("id")),res.getString("description"), u);
 					listTodos.add(t);
 				}
 			}
@@ -132,7 +132,7 @@ public class TododbUtil {
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Todo t = new Todo(result.getString("description"), u);
+				Todo t = new Todo(Integer.parseInt(result.getString("id")),result.getString("description"), u);
 				listTodos.add(t);
 			}
 		} catch (Exception e) {
