@@ -1,4 +1,4 @@
-package com.todoapp.web.jdbc;
+package com.todoapp.web.entities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,11 @@ public class User {
 	private String password;
 	private String email;
 	private Role idrole;
+	private String name;
+	private String lastname;
 	private Classroom idclass;
 	private List<Classroom> classes;
+	private List<Todo> todoDone;
 
 	public User(int id, String username, String password, Role idrole) {
 		this.id = id;
@@ -18,7 +21,7 @@ public class User {
 		this.password = password;
 		this.idrole = idrole;
 	}
-	
+
 	public User(int id, String username, String password, Role idrole, List<Classroom> listClass) {
 		this.id = id;
 		this.username = username;
@@ -26,7 +29,7 @@ public class User {
 		this.idrole = idrole;
 		this.classes = listClass;
 	}
-	
+
 	public User(String username, String password, Role idrole) {
 		this.username = username;
 		this.password = password;
@@ -75,6 +78,22 @@ public class User {
 		this.username = username;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -109,13 +128,13 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + " " + classes.size()+"]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + " " + classes.size() + "]";
 	}
 
 	public void addClass(Classroom Class) {
 		classes.add(Class);
 	}
-	
+
 	public List<Classroom> getClasses() {
 		return classes;
 	}

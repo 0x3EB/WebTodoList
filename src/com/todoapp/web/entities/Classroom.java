@@ -1,4 +1,4 @@
-package com.todoapp.web.jdbc;
+package com.todoapp.web.entities;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.todoapp.web.jdbc;
+package com.todoapp.web.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+
+import com.todoapp.web.entities.Role;
+import com.todoapp.web.entities.Todo;
+import com.todoapp.web.entities.User;
+import com.todoapp.web.jdbc.TododbUtil;
 
 /**
  * Servlet implementation class UserControllerServlet

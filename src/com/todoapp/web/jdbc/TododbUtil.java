@@ -10,6 +10,11 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import com.todoapp.web.entities.Classroom;
+import com.todoapp.web.entities.Role;
+import com.todoapp.web.entities.Todo;
+import com.todoapp.web.entities.User;
+
 public class TododbUtil {
 	private DataSource dataSource;
 

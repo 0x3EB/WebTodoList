@@ -1,4 +1,4 @@
-package com.todoapp.web.jdbc;
+package com.todoapp.web.entities;
 
 public class Role {
 	private int id;
