@@ -6,16 +6,16 @@
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
 	name="viewport">
 <title>TODO Application</title>
-<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="css/materialdesignicons.min.css">
 <link rel="stylesheet" type="text/css"
-	href="css/boostrap4-toggle.min.css">
-<link rel="stylesheet" type="text/css" href="css/boostrap-table.css">
+	href="css/bootstrap4-toggle.min.css">
+
 <link rel="stylesheet" type="text/css" href="css/user.css">
-<link rel="stylesheet" type="text/css" href="css/boostrap-table.min.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css">
 
 
 </head>
@@ -142,9 +142,9 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/select2.min.js"></script>
 	<script type="text/javascript" src="js/popper.min.js"></script>
-	<script type="text/javascript" src="js/boostrap-table.js"></script>
-	<script type="text/javascript" src="js/boostrap-table.min.js"></script>
-	<script type="text/javascript" src="js/boostrap-table-fr-FR.js"></script>
+	<script type="text/javascript" src="js/bootstrap-table.js"></script>
+	<script type="text/javascript" src="js/bootstrap-table.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap-table-fr-FR.js"></script>
 </body>
 </html>
 
