@@ -12,43 +12,50 @@
 	href="css/bootstrap4-toggle.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/user.css">
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
 <link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/bootstrap-table.min.css">
+<link rel="stylesheet" type="text/css"
+	href="css/bootstrap-table.min.css">
+<link href="css/material-kit.css?v=2.0.7" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="css/demo.css">
 
 
 </head>
-<body>
-	<jsp:include page="menu.jsp" />
+<body class="profile-page sidebar-collapse">
+	<jsp:include page="menu3.jsp" />
 	<div class="container">
-
-		<div class="jumbotron">
-			<div class="row">
-
-				<div class="col-12">
-					<a href="UserControllerServlet"
-						class="btn btn-success alignright fa fa-plus" data-toggle="modal"
-						data-target="#newTodoModal" role="button"></a>
-					<table class="table table-striped table-bordered table-sm"
-						data-toggle="table" data-search="true" data-pagination="true">
+				<a href="UserControllerServlet"
+						class="btn btn-success  btn-round alignright fa fa-plus" data-toggle="modal"
+						data-target="#newTodoModal" role="button" id="newTodo"></a>	
+					<table data-toggle="table" data-search="true"
+						data-pagination="true" data-show_columns="false">
+						
 						<thead>
 							<tr>
-								<th>id</th>
+								<th></th>
+								<th>Instructor</th>
 								<th>Description</th>
+								<th>Classroom</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach var="todo" items="${TODO_LIST }">
 								<tr>
-									<td>${todo.id}</td>
+									<td><a href="../index.html"> <i
+											class="material-icons">done_all</i>
+									</a></td>
+									<td>${todo.idinstructor.username}</td>
+									<td>${todo.description}</td>
 									<td>${todo.description}</td>
 									<td><a href="UserControllerServlet"
-										class="btn btn-primary fa fa-eye" role="button"
+										class="btn btn-warning  btn-round fa fa-eye" role="button"
 										data-toggle="modal" data-target="#largeModal-${todo.id}"></a>
-										<a href="#" class="btn btn-info fa fa-edit" role="button"></a>
-										<a href="#" class="btn btn-danger fa fa-trash" role="button"
+										<a href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
+										<a href="#" class="btn btn-danger  btn-round fa fa-trash" role="button"
 										data-toggle="modal" data-target="#deleteModal"></a></td>
 								</tr>
 								<div class="modal fade" id="deleteModal" tabindex="-1"
@@ -97,9 +104,6 @@
 						</tbody>
 					</table>
 				</div>
-			</div>
-		</div>
-	</div>
 	<div class="modal fade" id="newTodoModal" tabindex="-1" role="dialog"
 		aria-labelledby="newTodoLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -142,9 +146,11 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/select2.min.js"></script>
 	<script type="text/javascript" src="js/popper.min.js"></script>
+	<script src="js/bootstrap-material-design.min.js"
+		type="text/javascript"></script>
 	<script type="text/javascript" src="js/bootstrap-table.js"></script>
 	<script type="text/javascript" src="js/bootstrap-table.min.js"></script>
-	<script type="text/javascript" src="js/bootstrap-table-fr-FR.js"></script>
+	<script src="js/material-kit.js?v=2.0.7" type="text/javascript"></script>
 </body>
 </html>
 
