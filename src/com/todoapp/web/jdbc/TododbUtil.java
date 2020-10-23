@@ -34,7 +34,7 @@ public class TododbUtil {
 			myStmt.setString(2, emailOrUsername);
 			myStmt.setString(3, emailOrUsername);
 			ResultSet result = myStmt.executeQuery();
-			rs = result.next() ;
+			rs = result.next();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		} finally {
@@ -48,6 +48,19 @@ public class TododbUtil {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		User u = null;
+		User instructor = null;
+		Role instructorRole = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "select * from role where libelle = 'instructor'";
+			myStmt = myConn.prepareStatement(sql);
+			ResultSet result = myStmt.executeQuery();
+			if (result.next()) {
+				instructorRole = new Role(Integer.parseInt(result.getString("id")), result.getString("libelle"));
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 		try {
 			myConn = dataSource.getConnection();
 			String sql = "select * from user where password = ? and email = ? or username = ?";
@@ -63,10 +76,54 @@ public class TododbUtil {
 				ResultSet result2 = myStmt.executeQuery();
 				if (result2.next()) {
 					Role r = new Role(Integer.parseInt(result2.getString("id")), result2.getString("libelle"));
-					if (r.getLibelle().toUpperCase().equals(Role.STUDENT))
-						u = new User(Integer.parseInt(result.getString("id")), result.getString("username"),
-								result.getString("password"), r);
-					else if (r.getLibelle().toUpperCase().equals(Role.INSTRUCTOR)){
+					if (r.getLibelle().toUpperCase().equals(Role.STUDENT)) {
+						List<Todo> todosDone = new ArrayList<Todo>();
+						String sqlTodoDone = "select * from tododone where iduser = ?";
+						myStmt = myConn.prepareStatement(sqlTodoDone);
+						myStmt.setString(1, result.getString("id"));
+						ResultSet resultTodosDone = myStmt.executeQuery();
+						while (resultTodosDone.next()) {
+							String getTodo = "select * from todo where id = ?";
+							myStmt = myConn.prepareStatement(getTodo);
+							myStmt.setString(1, resultTodosDone.getString("idtodo"));
+							ResultSet todosresult = myStmt.executeQuery();
+							if (todosresult.next()) {
+								String getInstructorTodo = "select * from user where id = ?";
+								myStmt = myConn.prepareStatement(getInstructorTodo);
+								myStmt.setString(1, todosresult.getString("idinstructor"));
+								ResultSet instructorTodo = myStmt.executeQuery();
+								if (instructorTodo.next()) {
+									List<Classroom> listClassesInstructor = new ArrayList<Classroom>();
+									String sqlClassesInstrucor = "select * from instructorclasses where idInstructor = ?";
+									myStmt = myConn.prepareStatement(sqlClassesInstrucor);
+									myStmt.setString(1, result.getString("id"));
+									ResultSet resultInstructorClass = myStmt.executeQuery();
+									while (resultInstructorClass.next()) {
+										String sqlGetClass = "select * from class where id = ?";
+										myStmt = myConn.prepareStatement(sqlGetClass);
+										myStmt.setString(1, resultInstructorClass.getString("idClass"));
+										ResultSet resultInstructorClassList = myStmt.executeQuery();
+										if (resultInstructorClassList.next()) {
+											Classroom c = new Classroom(
+													Integer.parseInt(resultInstructorClassList.getString("idClass")),
+													resultInstructorClassList.getString("name"));
+											listClassesInstructor.add(c);
+										}
+									}
+									instructor = new User(Integer.parseInt(instructorTodo.getString("id")),
+											instructorTodo.getString("name"), instructorTodo.getString("prenom"),
+											instructorTodo.getString("username"), instructorTodo.getString("password"),
+											instructorRole, listClassesInstructor);
+								}
+								Todo t = new Todo(Integer.parseInt(todosresult.getString("id")),
+										todosresult.getString("description"), instructor);
+								todosDone.add(t);
+							}
+						}
+						u = new User(Integer.parseInt(result.getString("id")), result.getString("name"),
+								result.getString("lastname"), result.getString("username"),
+								result.getString("password"), todosDone, r);
+					} else if (r.getLibelle().toUpperCase().equals(Role.INSTRUCTOR)) {
 						List<Classroom> listClasses = new ArrayList<Classroom>();
 						String sqlClasses = "select * from instructorclasses where idInstructor = ?";
 						myStmt = myConn.prepareStatement(sqlClasses);
@@ -83,7 +140,8 @@ public class TododbUtil {
 								listClasses.add(c);
 							}
 						}
-						u = new User(Integer.parseInt(result.getString("id")), result.getString("username"),
+						u = new User(Integer.parseInt(result.getString("id")), result.getString("name"),
+								result.getString("lastname"), result.getString("username"),
 								result.getString("password"), r, listClasses);
 					}
 				}
@@ -104,7 +162,7 @@ public class TododbUtil {
 		String sql;
 		try {
 			myConn = dataSource.getConnection();
-			sql ="select idtodo from todoclass where idClass=(SELECT idclass FROM user WHERE id=?)";
+			sql = "select idtodo from todoclass where idClass=(SELECT idclass FROM user WHERE id=?)";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
@@ -114,7 +172,7 @@ public class TododbUtil {
 				myStmt1.setString(1, result.getString("idtodo"));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
-					Todo t = new Todo(Integer.parseInt(res.getString("id")),res.getString("description"), u);
+					Todo t = new Todo(Integer.parseInt(res.getString("id")), res.getString("description"), u);
 					listTodos.add(t);
 				}
 			}
@@ -137,7 +195,7 @@ public class TododbUtil {
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Todo t = new Todo(Integer.parseInt(result.getString("id")),result.getString("description"), u);
+				Todo t = new Todo(Integer.parseInt(result.getString("id")), result.getString("description"), u);
 				listTodos.add(t);
 			}
 		} catch (Exception e) {
@@ -147,7 +205,7 @@ public class TododbUtil {
 		}
 		return listTodos;
 	}
-	
+
 	public List<Classroom> getAllClassroom() {
 		List<Classroom> lst = new ArrayList<Classroom>();
 		Connection myConn = null;
@@ -168,7 +226,7 @@ public class TododbUtil {
 		}
 		return lst;
 	}
-	
+
 	public void addTodo(Todo t) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
@@ -183,8 +241,8 @@ public class TododbUtil {
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	public void removeTodo(Todo t ) throws SQLException {
+
+	public void removeTodo(Todo t) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "DELETE FROM todo WHERE id=?";
