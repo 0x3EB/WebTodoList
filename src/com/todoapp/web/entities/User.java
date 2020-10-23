@@ -5,39 +5,60 @@ import java.util.List;
 
 public class User {
 	private int id;
+	private String name;
+	private String lastname;
 	private String username;
 	private String password;
 	private String email;
 	private Role idrole;
-	private String name;
-	private String lastname;
 	private Classroom idclass;
 	private List<Classroom> classes;
-	private List<Todo> todoDone;
+	private List<Todo> todosDone;
 
-	public User(int id, String username, String password, Role idrole) {
+	public User(int id, String name, String lastname, String username, String password, Role idrole) {
 		this.id = id;
+		this.name = name;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
+		this.todosDone = new ArrayList<Todo>();
 	}
 
-	public User(int id, String username, String password, Role idrole, List<Classroom> listClass) {
+	public User(int id, String name, String lastname, String username, String password, List<Todo> todosDone,
+			Role idrole) {
 		this.id = id;
+		this.name = name;
+		this.lastname = lastname;
+		this.username = username;
+		this.password = password;
+		this.idrole = idrole;
+		this.todosDone = todosDone;
+	}
+
+	public User(int id, String name, String lastname, String username, String password, Role idrole,
+			List<Classroom> listClass) {
+		this.id = id;
+		this.name = name;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
 		this.classes = listClass;
 	}
 
-	public User(String username, String password, Role idrole) {
+	public User(String name, String lastname, String username, String password, Role idrole) {
+		this.name = name;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
 		this.classes = new ArrayList<>();
 	}
 
-	public User(String username, String password, Role idrole, Classroom idclass) {
+	public User(String name, String lastname, String username, String password, Role idrole, Classroom idclass) {
+		this.name = name;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
@@ -45,7 +66,10 @@ public class User {
 		this.classes = new ArrayList<>();
 	}
 
-	public User(String username, String password, Role idrole, Classroom idclass, String email) {
+	public User(String name, String lastname, String username, String password, Role idrole, Classroom idclass,
+			String email) {
+		this.name = name;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
@@ -54,7 +78,9 @@ public class User {
 		this.classes = new ArrayList<>();
 	}
 
-	public User(String username, String password, Role idrole, String email) {
+	public User(String name, String lastname, String username, String password, Role idrole, String email) {
+		this.name = name;
+		this.lastname = lastname;
 		this.username = username;
 		this.password = password;
 		this.idrole = idrole;
@@ -126,11 +152,6 @@ public class User {
 		this.idclass = idclass;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + " " + classes.size() + "]";
-	}
-
 	public void addClass(Classroom Class) {
 		classes.add(Class);
 	}
@@ -138,4 +159,26 @@ public class User {
 	public List<Classroom> getClasses() {
 		return classes;
 	}
+
+	public void addTodoDone(Todo t) {
+		todosDone.add(t);
+	}
+
+	public List<Todo> getTodosDone() {
+		return this.todosDone;
+	}
+
+	public int getNumberOfTodosDone() {
+		return this.todosDone.size();
+	}
+
+	public int getNumberOfClassrooms() {
+		return this.classes.size();
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + " " + classes.size() + "]";
+	}
+
 }
