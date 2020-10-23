@@ -27,83 +27,83 @@
 <body class="profile-page sidebar-collapse">
 	<jsp:include page="menu3.jsp" />
 	<div class="container">
-				<a href="UserControllerServlet"
-						class="btn btn-success  btn-round alignright fa fa-plus" data-toggle="modal"
-						data-target="#newTodoModal" role="button" id="newTodo"></a>	
-					<table data-toggle="table" data-search="true"
-						data-pagination="true" data-show_columns="false">
-						
-						<thead>
-							<tr>
-								<th></th>
-								<th>Instructor</th>
-								<th>Description</th>
-								<th>Classroom</th>
-								<th>Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach var="todo" items="${TODO_LIST }">
-								<tr>
-									<td><a href="../index.html"> <i
-											class="material-icons">done_all</i>
-									</a></td>
-									<td>${todo.idinstructor.username}</td>
-									<td>${todo.description}</td>
-									<td>${todo.description}</td>
-									<td><a href="UserControllerServlet"
-										class="btn btn-warning  btn-round fa fa-eye" role="button"
-										data-toggle="modal" data-target="#largeModal-${todo.id}"></a>
-										<a href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
-										<a href="#" class="btn btn-danger  btn-round fa fa-trash" role="button"
-										data-toggle="modal" data-target="#deleteModal"></a></td>
-								</tr>
-								<div class="modal fade" id="deleteModal" tabindex="-1"
-									role="dialog" aria-labelledby="exampleModalLabel"
-									aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">Deleting
-													Confirmation</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">Are you sure you you want to
-												delete this ToDo?</div>
-											<div class="modal-footer">
-												<a class="btn btn-secondary" data-dismiss="modal">Cancel</a>
-												<a class="btn btn-success" href="#">Yes</a>
-											</div>
-										</div>
-									</div>
+		<a href="UserControllerServlet"
+			class="btn btn-success  btn-round alignright fa fa-plus"
+			data-toggle="modal" data-target="#newTodoModal" role="button"
+			id="newTodo"></a>
+		<table data-toggle="table" data-search="true" data-pagination="true"
+			data-show_columns="false">
+
+			<thead>
+				<tr>
+					<th></th>
+					<th>Instructor</th>
+					<th>Description</th>
+					<th>Classroom</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="todo" items="${TODO_LIST }">
+					<tr>
+						<td><a href="../index.html"> <i class="material-icons">done_all</i>
+						</a></td>
+						<td>${todo.idinstructor.username}</td>
+						<td>${todo.description}</td>
+						<td>${todo.description}</td>
+						<td><a href="UserControllerServlet"
+							class="btn btn-warning  btn-round fa fa-eye" role="button"
+							data-toggle="modal" data-target="#largeModal-${todo.id}"></a> <a
+							href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
+							<a href="#" class="btn btn-danger  btn-round fa fa-trash"
+							role="button" data-toggle="modal" data-target="#deleteModal"></a></td>
+					</tr>
+					<div class="modal fade" id="deleteModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Deleting
+										Confirmation</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
 								</div>
-								<div class="modal fade bd-visu-modal-lg"
-									id="largeModal-${todo.id}" tabindex="-1" role="dialog"
-									aria-labelledby="myLargeModalLabel" aria-hidden="true">
-									<div class="modal-dialog modal-lg">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalLabel">Details
-													of the ToDo n° ${todo.id}</h5>
-												<button type="button" class="close" data-dismiss="modal"
-													aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body"></div>
-											<div class="modal-footer">
-												<a class="btn btn-secondary" data-dismiss="modal">Close</a>
-											</div>
-										</div>
-									</div>
+								<div class="modal-body">Are you sure you you want to
+									delete this ToDo?</div>
+								<div class="modal-footer">
+									<a class="btn btn-secondary" data-dismiss="modal">Cancel</a> <a
+										class="btn btn-success" href="#">Yes</a>
 								</div>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade bd-visu-modal-lg" id="largeModal-${todo.id}"
+						tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Details of
+										the ToDo n° ${todo.id}</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body"></div>
+								<div class="modal-footer">
+									<a class="btn btn-secondary" data-dismiss="modal">Close</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 	<div class="modal fade" id="newTodoModal" tabindex="-1" role="dialog"
 		aria-labelledby="newTodoLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
