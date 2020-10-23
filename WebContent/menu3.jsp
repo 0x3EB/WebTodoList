@@ -3,7 +3,7 @@
  <nav class="navbar navbar-inverse navbar-expand-lg bg-dark" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="https://demos.creative-tim.com/material-kit/index.html">
+        <a class="navbar-brand" href="UserControllerServlet">
           ToDo Dynamic web APP</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">ToDo Dynamic web APP</span>
@@ -19,16 +19,16 @@
               <i class="material-icons">apps</i> ToDo
             </a>
             <div class="dropdown-menu dropdown-with-icons">
-              <a href="../index.html" class="dropdown-item">
+              <a href="#" class="dropdown-item">
                 <i class="material-icons">filter_list</i>Display all ToDos
               </a>
-              <a href="https://demos.creative-tim.com/material-kit/docs/2.0/getting-started/introduction.html" class="dropdown-item">
+              <a href="#" class="dropdown-item">
                 <i class="material-icons">content_paste</i>Display undone ToDos
               </a>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.creative-tim.com/product/material-kit-pro" target="_blank">
+            <a class="nav-link" href="#" target="_blank">
               <i class="material-icons">school</i> Classrooms
             </a>
           </li>

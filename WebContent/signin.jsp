@@ -58,7 +58,7 @@
 								</div>
 							</div>
 							<div class="footer text-center">
-								<button class="btn btn-rose btn-link btn-wd btn-lg" type="submit">Login</button>
+								<button class="btn btn-rose btn-round btn-wd btn-lg" type="submit">Login</button>
 							</div>
 						</form>
 					</div>
