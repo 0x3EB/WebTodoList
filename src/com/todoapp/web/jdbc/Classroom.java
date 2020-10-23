@@ -3,13 +3,12 @@ package com.todoapp.web.jdbc;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Classroom {
 	private int id;
 	private String name;
 	private List<User> eleves;
 	private List<Todo> todos;
-	
+
 	public Classroom(int id, String name) {
 		this.id = id;
 		this.name = name;
@@ -41,20 +40,24 @@ public class Classroom {
 	public String toString() {
 		return "Class [id=" + id + ", name=" + name + "]";
 	}
-	
+
 	public void addEleve(User eleve) {
 		eleves.add(eleve);
 	}
-	
+
 	public List<User> getEleves() {
 		return eleves;
 	}
-	
+
 	public void addTodo(Todo todo) {
 		todos.add(todo);
 	}
-	
+
 	public List<Todo> getTodos() {
 		return todos;
+	}
+
+	public int getNumberOfStudents() {
+		return this.eleves.size();
 	}
 }

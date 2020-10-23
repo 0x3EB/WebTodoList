@@ -28,7 +28,7 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" target="_blank">
+            <a class="nav-link" href="ClassroomControllerServlet" target="_blank">
               <i class="material-icons">school</i> Classrooms
             </a>
           </li>
