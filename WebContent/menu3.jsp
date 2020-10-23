@@ -45,8 +45,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                       <h6 class="dropdown-header">My account</h6>
-                      <a href="javascript:;" class="dropdown-item">${sessionScope.user.username}</a>
-                      <a href="javascript:;" class="dropdown-item">Settings and other stuff</a>
+                      <a class="dropdown-item">${sessionScope.user.name} ${sessionScope.user.lastname}</a>
+                      <a href="javascript:;" class="dropdown-item">Settings</a>
                       <a href="javascript:;" class="dropdown-item">Sign out</a>
                     </div>
                   </li>

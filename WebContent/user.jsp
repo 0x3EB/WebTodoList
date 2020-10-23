@@ -87,13 +87,48 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Details of
-										the ToDo n° ${todo.id}</h5>
+										the ToDo num : ${todo.id}</h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<div class="modal-body"></div>
+								<div class="modal-body">
+									<div>
+										<div class="card card-nav-tabs">
+											<div class="card-header card-header-info">
+												<div class="nav-tabs-navigation">
+													<div class="nav-tabs-wrapper">
+														<ul class="nav nav-tabs" data-tabs="tabs">
+
+															<li class="nav-item"><a class="nav-link"
+																href="#messages" data-toggle="tab"> <i
+																	class="material-icons">chat</i> Work you have to do
+																	<div class="ripple-container"></div></a></li>
+															<li class="nav-item"><a class="nav-link"
+																href="#profile" data-toggle="tab"> <i
+																	class="material-icons">face</i> Instructor
+																	<div class="ripple-container"></div></a></li>
+														</ul>
+													</div>
+												</div>
+											</div>
+											<div class="card-body ">
+												<div class="tab-content text-center">
+													<div class="tab-pane" id="profile">
+														<p>Written by ${todo.idinstructor.name} ${todo.idinstructor.lastname}</p>
+													</div>
+													<div class="tab-pane active" id="messages">
+														<p>${todo.description}</p>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+								</div>
 								<div class="modal-footer">
 									<a class="btn btn-secondary" data-dismiss="modal">Close</a>
 								</div>
