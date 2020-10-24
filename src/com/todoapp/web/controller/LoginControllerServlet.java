@@ -1,6 +1,7 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -13,7 +14,8 @@ import javax.sql.DataSource;
 
 import com.todoapp.web.entities.User;
 import com.todoapp.web.jdbc.TododbUtil;
-import com.todoapp.web.security.AppUtil;
+import com.todoapp.web.security.Keys;
+import com.todoapp.web.security.Security;
 
 /**
  * Servlet implementation class LoginControllerServlet
@@ -49,14 +51,18 @@ public class LoginControllerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
+		try {
+			Keys keys = new Keys();
+			Security.storeKeysSession(request.getSession(), keys);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), request.getParameter("password"))) {
 			tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
 			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
-			AppUtil.storeLoginedUser(request.getSession(), user);
+			Security.storeLoggedUser(request.getSession(), user);
 			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
-		}
-		else {
+		} else {
 			request.getRequestDispatcher("/signin.jsp").forward(request, response);
 		}
 	}
