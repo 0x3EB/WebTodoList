@@ -164,7 +164,7 @@ public class TododbUtil {
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, Integer.toString(id));
 			ResultSet res = myStmt.executeQuery();
-			if(res.next()) {
+			if (res.next()) {
 				Todo t = new Todo(id, res.getString("description"));
 				return t;
 			}
@@ -246,6 +246,23 @@ public class TododbUtil {
 			close(myConn, myStmt, null);
 		}
 		return lst;
+	}
+
+	public void updateTodo(Todo t) {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "update todo set description=? where id=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, t.getDescription());
+			myStmt.setString(2, Integer.toString(t.getId()));
+			myStmt.execute();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(myConn, myStmt, null);
+		}
 	}
 
 	public void addTodo(Todo t) throws SQLException {

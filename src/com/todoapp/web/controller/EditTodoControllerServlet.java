@@ -52,9 +52,9 @@ public class EditTodoControllerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String description = request.getParameter("description");
-		Todo t = new Todo(id, description);
-		doGet(request, response);
+		Todo t = new Todo(id, request.getParameter("description"));
+		tododbutil.updateTodo(t);
+		response.sendRedirect("UserControllerServlet");
 	}
 
 }

@@ -37,7 +37,7 @@
 									</span>
 								</div>
 								<input type="text" class="form-control"
-									value="${todo.description}" name="usernameOrEmail"
+									value="${todo.description}" name="description"
 									required autofocus>
 							</div>
 						</div>
