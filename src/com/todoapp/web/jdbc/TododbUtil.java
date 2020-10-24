@@ -280,12 +280,12 @@ public class TododbUtil {
 		}
 	}
 
-	public void removeTodo(Todo t) throws SQLException {
+	public void removeTodo(int id) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "DELETE FROM todo WHERE id=?";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
-			preparedStmt.setInt(1, t.getId());
+			preparedStmt.setInt(1, id);
 			preparedStmt.executeUpdate();
 			myConn.close();
 		} catch (Exception e) {

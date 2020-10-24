@@ -48,6 +48,9 @@
 					<c:url var="EditTodo" value="EditTodoControllerServlet">
 						<c:param name="todoId" value="${todo.id}" />
 					</c:url>
+					<c:url var="DeleteTodo" value="DeleteTodoControllerServlet">
+						<c:param name="todoId" value="${todo.id}" />
+					</c:url>
 					<tr>
 						<td><a href="../index.html"> <i class="material-icons">done_all</i>
 						</a></td>
@@ -79,7 +82,7 @@
 									delete this ToDo?</div>
 								<div class="modal-footer">
 									<a class="btn btn-secondary" data-dismiss="modal">Cancel</a> <a
-										class="btn btn-success" href="#">Yes</a>
+										class="btn btn-success" href="${DeleteTodo}">Yes</a>
 								</div>
 							</div>
 						</div>

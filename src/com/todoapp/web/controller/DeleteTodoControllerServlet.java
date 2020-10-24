@@ -1,6 +1,7 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import com.todoapp.web.jdbc.TododbUtil;
 public class DeleteTodoControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
+	private int id;
 
 	@Resource(name = "jdbc/todolist")
 	private DataSource dataSource;
@@ -31,13 +33,18 @@ public class DeleteTodoControllerServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		id = Integer.parseInt(request.getParameter("todoId"));
+		try {
+			tododbutil.removeTodo(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		response.sendRedirect("UserControllerServlet");
 	}
 
 }
