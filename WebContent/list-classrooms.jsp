@@ -40,10 +40,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="class" items="${CLASSROOM_LIST }">
+				<c:forEach var="classe" items="${CLASSROOMS }">
 					<tr>
-						<td>${class.name}</td>
-						<td>${class.getNumberOfStudents}</td>
+						<td>${classe.name}</td>
+						<td>${classe.getNumberOfStudents()}</td>
 						<td>True</td>
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
@@ -68,10 +68,3 @@
 	<script src="js/material-kit.js?v=2.0.7" type="text/javascript"></script>
 </body>
 </html>
-
-
-
-
-
-
-

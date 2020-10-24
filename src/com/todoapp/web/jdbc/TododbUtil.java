@@ -249,6 +249,14 @@ public class TododbUtil {
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
 				Classroom c = new Classroom(result.getString("name"));
+				sql = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
+				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
+				myStmt1.setString(1, result.getString("idclassid"));
+				ResultSet res = myStmt.executeQuery();
+				while (res.next()) {
+					User u = new User(res.getString("name"), res.getString("name"), res.getString("name"), res.getString("name"));
+					c.addEleve(u);
+				}
 				lst.add(c);
 			}
 		} catch (Exception e) {

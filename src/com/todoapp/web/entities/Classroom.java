@@ -18,6 +18,8 @@ public class Classroom {
 
 	public Classroom(String name) {
 		this.name = name;
+		this.eleves = new ArrayList<>();
+		this.todos = new ArrayList<>();
 	}
 
 	public int getId() {

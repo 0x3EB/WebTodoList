@@ -87,6 +87,13 @@ public class User {
 		this.email = email;
 		this.classes = new ArrayList<>();
 	}
+	
+	public User(String name, String lastname, String username, String email) {
+		this.name = name;
+		this.lastname = lastname;
+		this.username = username;
+		this.email = email;
+	}
 
 	public int getId() {
 		return id;
