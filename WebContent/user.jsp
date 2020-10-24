@@ -45,6 +45,9 @@
 			</thead>
 			<tbody>
 				<c:forEach var="todo" items="${TODO_LIST }">
+					<c:url var="EditTodo" value="EditTodoControllerServlet">
+						<c:param name="todoId" value="${todo.id}" />
+					</c:url>
 					<tr>
 						<td><a href="../index.html"> <i class="material-icons">done_all</i>
 						</a></td>
@@ -54,9 +57,10 @@
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
 							data-toggle="modal" data-target="#largeModal-${todo.id}"></a> <a
-							href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
-							<a href="#" class="btn btn-danger  btn-round fa fa-trash"
-							role="button" data-toggle="modal" data-target="#deleteModal"></a></td>
+							href="${EditTodo}" class="btn btn-info btn-round fa fa-edit"
+							role="button"></a> <a href="#"
+							class="btn btn-danger  btn-round fa fa-trash" role="button"
+							data-toggle="modal" data-target="#deleteModal"></a></td>
 					</tr>
 					<div class="modal fade" id="deleteModal" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalLabel"
@@ -116,7 +120,8 @@
 											<div class="card-body ">
 												<div class="tab-content text-center">
 													<div class="tab-pane" id="profile">
-														<p>Written by ${todo.idinstructor.name} ${todo.idinstructor.lastname}</p>
+														<p>Written by ${todo.idinstructor.name}
+															${todo.idinstructor.lastname}</p>
 													</div>
 													<div class="tab-pane active" id="messages">
 														<p>${todo.description}</p>

@@ -155,6 +155,27 @@ public class TododbUtil {
 		return u;
 	}
 
+	public Todo getTodo(int id) {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "select * from todo where id=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, Integer.toString(id));
+			ResultSet res = myStmt.executeQuery();
+			if(res.next()) {
+				Todo t = new Todo(id, res.getString("description"));
+				return t;
+			}
+
+		} catch (SQLException e) {
+			System.err.println(e.getStackTrace());
+		}
+
+		return null;
+	}
+
 	public List<Todo> getStudentTodo(User u) {
 		List<Todo> listTodos = new ArrayList<Todo>();
 		Connection myConn = null;
