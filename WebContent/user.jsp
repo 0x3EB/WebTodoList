@@ -6,23 +6,20 @@
 <meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
 	name="viewport">
 <title>TODO Application</title>
+<link rel="icon" href="img/favicon.png">
 <link rel="stylesheet" type="text/css"
 	href="css/materialdesignicons.min.css">
 <link rel="stylesheet" type="text/css"
 	href="css/bootstrap4-toggle.min.css">
 
 <link rel="stylesheet" type="text/css" href="css/user.css">
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/mdi.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css">
 <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="css/bootstrap-table.min.css">
 <link href="css/material-kit.css?v=2.0.7" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/demo.css">
-
-
 </head>
 <body class="profile-page sidebar-collapse">
 	<jsp:include page="menu3.jsp" />

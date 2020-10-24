@@ -5,7 +5,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>TODO APP | Sign in</title>
-<link rel="icon" href="img/appIcon.png">
+<link rel="icon" href="img/favicon.png">
 <link rel="stylesheet" type="text/css"
 	href="css/materialdesignicons.min.css">
 <link rel="stylesheet" type="text/css"
