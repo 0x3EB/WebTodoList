@@ -37,9 +37,13 @@
 									</span>
 								</div>
 								<input type="text" class="form-control"
-									value="${todo.description}" name="description"
-									required autofocus>
+									value="${todo.description}" name="description" required
+									autofocus>
 							</div>
+						</div>
+						<div class="footer text-center">
+							<a class="btn btn-dark btn-round btn-wd btn-lg"
+								href="UserControllerServlet">Return to ToDos</a>
 						</div>
 						<div class="footer text-center">
 							<button class="btn btn-success btn-round btn-wd btn-lg"
