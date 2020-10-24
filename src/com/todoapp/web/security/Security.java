@@ -1,10 +1,18 @@
 package com.todoapp.web.security;
 
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -62,5 +70,29 @@ public class Security {
 		}
 
 		return sb.toString();
+	}
+
+	public static byte[] encrypt(String data, PublicKey publicKey) throws BadPaddingException,
+			IllegalBlockSizeException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
+		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+		return cipher.doFinal(data.getBytes());
+	}
+
+	public static String EncryptedString(String data, PublicKey publicKey) throws InvalidKeyException,
+			BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException {
+		return Base64.getEncoder().encodeToString(encrypt(data, publicKey));
+	}
+
+	public static String decrypt(byte[] data, PrivateKey privateKey) throws NoSuchPaddingException,
+			NoSuchAlgorithmException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
+		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+		cipher.init(Cipher.DECRYPT_MODE, privateKey);
+		return new String(cipher.doFinal(data));
+	}
+
+	public static String decrypt(String data, PrivateKey key) throws IllegalBlockSizeException, InvalidKeyException,
+			BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+		return decrypt(Base64.getDecoder().decode(data.getBytes()), key);
 	}
 }

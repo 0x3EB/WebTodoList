@@ -2,6 +2,7 @@ package com.todoapp.web.controller;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -50,16 +51,18 @@ public class LoginControllerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
 		try {
 			Keys keys = new Keys();
-			Security.storeKeysSession(request.getSession(), keys);
+			Security.storeKeysSession(session, keys);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), request.getParameter("password"))) {
-			tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
-			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
+			tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"),
+					(PublicKey) session.getAttribute("publicKey"));
+			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"),
+					(PublicKey) session.getAttribute("publicKey"));
 			Security.storeLoggedUser(request.getSession(), user);
 			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
 		} else {

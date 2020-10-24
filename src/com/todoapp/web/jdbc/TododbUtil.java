@@ -1,5 +1,9 @@
 package com.todoapp.web.jdbc;
 
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,12 +12,16 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.sql.DataSource;
 
 import com.todoapp.web.entities.Classroom;
 import com.todoapp.web.entities.Role;
 import com.todoapp.web.entities.Todo;
 import com.todoapp.web.entities.User;
+import com.todoapp.web.security.Security;
 
 public class TododbUtil {
 	private DataSource dataSource;
@@ -44,7 +52,7 @@ public class TododbUtil {
 	}
 
 	@SuppressWarnings("resource")
-	public User getUser(String emailOrUsername, String password) {
+	public User getUser(String emailOrUsername, String password, PublicKey key) {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		User u = null;
@@ -115,8 +123,8 @@ public class TododbUtil {
 											instructorTodo.getString("username"), instructorTodo.getString("password"),
 											instructorRole, listClassesInstructor);
 								}
-								Todo t = new Todo(Integer.parseInt(todosresult.getString("id")),
-										todosresult.getString("description"), instructor);
+								String id = Security.EncryptedString(todosresult.getString("id"), key);
+								Todo t = new Todo(id, todosresult.getString("description"), instructor);
 								todosDone.add(t);
 							}
 						}
@@ -155,28 +163,29 @@ public class TododbUtil {
 		return u;
 	}
 
-	public Todo getTodo(int id) {
+	public Todo getTodo(String id, PrivateKey key) throws InvalidKeyException, IllegalBlockSizeException,
+			BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		try {
 			myConn = dataSource.getConnection();
 			String sql = "select * from todo where id=?";
 			myStmt = myConn.prepareStatement(sql);
-			myStmt.setString(1, Integer.toString(id));
+			myStmt.setString(1, Security.decrypt(id, key));
 			ResultSet res = myStmt.executeQuery();
 			if (res.next()) {
 				Todo t = new Todo(id, res.getString("description"));
 				return t;
 			}
 
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			System.err.println(e.getStackTrace());
 		}
 
 		return null;
 	}
 
-	public List<Todo> getStudentTodo(User u) {
+	public List<Todo> getStudentTodo(User u, PublicKey key) {
 		List<Todo> listTodos = new ArrayList<Todo>();
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -193,7 +202,8 @@ public class TododbUtil {
 				myStmt1.setString(1, result.getString("idtodo"));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
-					Todo t = new Todo(Integer.parseInt(res.getString("id")), res.getString("description"), u);
+					String id = Security.EncryptedString(res.getString("id"), key);
+					Todo t = new Todo(id, res.getString("description"), u);
 					listTodos.add(t);
 				}
 			}
@@ -205,7 +215,7 @@ public class TododbUtil {
 		return listTodos;
 	}
 
-	public List<Todo> getInstructorTodo(User u) {
+	public List<Todo> getInstructorTodo(User u, PublicKey key) {
 		List<Todo> listTodos = new ArrayList<Todo>();
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -216,7 +226,8 @@ public class TododbUtil {
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Todo t = new Todo(Integer.parseInt(result.getString("id")), result.getString("description"), u);
+				String id = Security.EncryptedString(result.getString("id"), key);
+				Todo t = new Todo(id, result.getString("description"), u);
 				listTodos.add(t);
 			}
 		} catch (Exception e) {
@@ -248,7 +259,7 @@ public class TododbUtil {
 		return lst;
 	}
 
-	public void updateTodo(Todo t) {
+	public void updateTodo(Todo t, PrivateKey key) {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
 		try {
@@ -256,7 +267,7 @@ public class TododbUtil {
 			String sql = "update todo set description=? where id=?";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, t.getDescription());
-			myStmt.setString(2, Integer.toString(t.getId()));
+			myStmt.setString(2, Security.decrypt(t.getId(), key));
 			myStmt.execute();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

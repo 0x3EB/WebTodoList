@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Todo {
-	private int id;
+	private String id;
 	private String description;
 	private User idinstructor;
 	private List<User> studentsDone;
 
-	public Todo(int id, String description, User idinstructor) {
+	public Todo(String id, String description, User idinstructor) {
 		this.id = id;
 		this.description = description;
 		this.idinstructor = idinstructor;
@@ -22,7 +22,7 @@ public class Todo {
 		this.studentsDone = new ArrayList<User>();
 	}
 
-	public Todo(int id, String description, User idinstructor, List<User> studentsDone) {
+	public Todo(String id, String description, User idinstructor, List<User> studentsDone) {
 		this.id = id;
 		this.description = description;
 		this.idinstructor = idinstructor;
@@ -35,16 +35,16 @@ public class Todo {
 		this.studentsDone = studentsDone;
 	}
 
-	public Todo(int id, String description) {
+	public Todo(String id, String description) {
 		this.id = id;
 		this.description = description;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

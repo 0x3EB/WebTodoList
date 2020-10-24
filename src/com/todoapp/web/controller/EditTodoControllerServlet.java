@@ -1,13 +1,20 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 
 import javax.annotation.Resource;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.todoapp.web.entities.Todo;
@@ -20,7 +27,7 @@ import com.todoapp.web.jdbc.TododbUtil;
 public class EditTodoControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
-	private int id;
+	private String id;
 
 	@Resource(name = "jdbc/todolist")
 	private DataSource dataSource;
@@ -39,8 +46,15 @@ public class EditTodoControllerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		id = Integer.parseInt(request.getParameter("todoId"));
-		Todo t = tododbutil.getTodo(id);
+		HttpSession session = request.getSession();
+		id = request.getParameter("todoId");
+		Todo t = null;
+		try {
+			t = tododbutil.getTodo(request.getParameter("todoId"), (PrivateKey) session.getAttribute("privatekey"));
+		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
+				| NoSuchPaddingException e) {
+			e.printStackTrace();
+		}
 		request.setAttribute("todo", t);
 		request.getRequestDispatcher("edit-todo.jsp").forward(request, response);
 	}
@@ -51,9 +65,9 @@ public class EditTodoControllerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
 		Todo t = new Todo(id, request.getParameter("description"));
-		tododbutil.updateTodo(t);
+		tododbutil.updateTodo(t, (PrivateKey) session.getAttribute("privatekey"));
 		response.sendRedirect("UserControllerServlet");
 	}
 

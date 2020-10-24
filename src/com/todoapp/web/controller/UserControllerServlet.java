@@ -1,11 +1,11 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +18,6 @@ import com.todoapp.web.entities.Role;
 import com.todoapp.web.entities.Todo;
 import com.todoapp.web.entities.User;
 import com.todoapp.web.jdbc.TododbUtil;
-import com.todoapp.web.security.Security;
 
 /**
  * Servlet implementation class UserControllerServlet
@@ -49,13 +48,10 @@ public class UserControllerServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			User u = (User) session.getAttribute("user");
 			List<Todo> lst = new ArrayList<Todo>();
-			String role = null;
 			if (u.getIdrole().getLibelle().toUpperCase().equals(Role.INSTRUCTOR)) {
-				lst = tododbutil.getInstructorTodo(u);
-				role="instructor";
+				lst = tododbutil.getInstructorTodo(u, (PublicKey) session.getAttribute("publickey"));
 			} else if (u.getIdrole().getLibelle().toUpperCase().equals(Role.STUDENT)) {
-				lst = tododbutil.getStudentTodo(u);
-				role="student" ;
+				lst = tododbutil.getStudentTodo(u, (PublicKey) session.getAttribute("publickey"));
 			}
 			request.setAttribute("TODO_LIST", lst);
 			request.setAttribute("CLASSROOMS_LIST", tododbutil.getAllClassroom());
