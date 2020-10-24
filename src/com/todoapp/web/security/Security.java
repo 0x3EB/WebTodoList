@@ -50,7 +50,6 @@ public class Security {
 //		}
 //		return false;
 //	}
-
 	public static void storeLoggedUser(HttpSession session, User user) {
 		// On the JSP can access via ${loginedUser}
 		session.setAttribute("user", user);
