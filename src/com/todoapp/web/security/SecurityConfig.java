@@ -23,14 +23,16 @@ public class SecurityConfig {
 		// Configure For "ROLE_STUDENT" Role.
 		List<String> urlPatterns1 = new ArrayList<String>();
 
-		//urlPatterns1.add("/userInfo");
+		urlPatterns1.add("/userInfo");
 
 		mapConfig.put(ROLE_STUDENT, urlPatterns1);
 
 		// Configure For "ROLE_INSTRUCTOR" Role.
 		List<String> urlPatterns2 = new ArrayList<String>();
 
-		//urlPatterns2.add("/userInfo");
+		urlPatterns2.add("/EditTodoControllerServlet");
+		urlPatterns2.add("/DeleteTodoControllerServlet");
+		urlPatterns2.add("/ClassroomControllerServlet");
 
 		mapConfig.put(ROLE_INSTRUCTOR, urlPatterns2);
 	}

@@ -8,18 +8,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
-import com.todoapp.web.entities.User;
 import com.todoapp.web.jdbc.TododbUtil;
-import com.todoapp.web.security.AppUtil;
 
 /**
- * Servlet implementation class LoginControllerServlet
+ * Servlet implementation class LogoutControllerServlet
  */
-@WebServlet("/LoginControllerServlet")
-public class LoginControllerServlet extends HttpServlet {
+@WebServlet("/LogoutControllerServlet")
+public class LogoutControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
 
@@ -39,7 +36,8 @@ public class LoginControllerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.getRequestDispatcher("/signin.jsp").forward(request, response);
+		request.getSession().invalidate();
+		response.sendRedirect(request.getContextPath() + "/");
 	}
 
 	/**
@@ -49,16 +47,7 @@ public class LoginControllerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
-		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), request.getParameter("password"))) {
-			tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
-			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"));
-			AppUtil.storeLoginedUser(request.getSession(), user);
-			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
-		}
-		else {
-			request.getRequestDispatcher("/signin.jsp").forward(request, response);
-		}
+		doGet(request, response);
 	}
 
 }
