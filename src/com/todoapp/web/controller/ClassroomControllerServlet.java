@@ -39,6 +39,7 @@ public class ClassroomControllerServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		try {
+			request.setAttribute("CLASSROOMS", tododbutil.getAllClassroom());
 			request.getRequestDispatcher("/list-classrooms.jsp").forward(request, response);
 		}catch(Exception e) {
 			System.err.println(e.getMessage());

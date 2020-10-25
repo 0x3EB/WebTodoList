@@ -248,13 +248,13 @@ public class TododbUtil {
 			myStmt = myConn.prepareStatement(sql);
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Classroom c = new Classroom(result.getString("name"));
+				Classroom c = new Classroom(Integer.parseInt(result.getString("idclassid")),result.getString("name"));
 				sql = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
 				myStmt1.setString(1, result.getString("idclassid"));
-				ResultSet res = myStmt.executeQuery();
+				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
-					User u = new User(res.getString("name"), res.getString("name"), res.getString("name"), res.getString("name"));
+					User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"), res.getString("email"));
 					c.addEleve(u);
 				}
 				lst.add(c);
@@ -291,6 +291,20 @@ public class TododbUtil {
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, t.getDescription());
 			preparedStmt.setString(2, Integer.toString(t.getIdinstructor().getId()));
+			preparedStmt.executeUpdate();
+			myConn.close();
+		} catch (Exception e) {
+			System.err.println("Got an exception! ");
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	public void addClass(Classroom c) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "INSERT INTO class(name) VALUES(?)";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, c.getName());
 			preparedStmt.executeUpdate();
 			myConn.close();
 		} catch (Exception e) {

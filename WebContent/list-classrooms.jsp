@@ -24,10 +24,10 @@
 <body class="profile-page sidebar-collapse">
 	<jsp:include page="menu3.jsp" />
 	<div class="container">
-		<a href="UserControllerServlet"
+		<a href="ClassroomControllerServlet"
 			class="btn btn-success  btn-round alignright fa fa-plus"
-			data-toggle="modal" data-target="#newTodoModal" role="button"
-			id="newTodo"></a>
+			data-toggle="modal" data-target="#newClassModal" role="button"
+			id="newClass"></a>
 		<table data-toggle="table" data-search="true" data-pagination="true"
 			data-show_columns="false">
 
@@ -47,15 +47,89 @@
 						<td>True</td>
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
-							data-toggle="modal" data-target="#largeModal-${todo.id}"></a> <a
-							href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
+							data-toggle="modal" data-target="#largeModal-${classe.id}"></a> 
+							<a href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
 							<a href="#" class="btn btn-danger  btn-round fa fa-trash"
-							role="button" data-toggle="modal" data-target="#deleteModal"></a></td>
+							role="button" data-toggle="modal" data-target="#deleteModal-"></a></td>
 					</tr>
+					<div class="modal fade bd-visu-modal-lg" id="largeModal-${classe.id}"
+						tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Details of
+										the class : ${classe.name}</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div>
+										<div class="card card-nav-tabs">
+											<div class="card-body ">
+												<div class="tab-content text-center">
+													<div class="tab-pane" id="profile">
+													</div>
+													<div class="tab-pane active" id="messages">
+													<c:set var="compt"  value="1"/>
+														<c:forEach var = "e" items="${classe.eleves}">
+															<c:out value = "${compt}"/>: <c:out value = "${e.lastname}"/> <c:out value = "${e.name}"/><p>
+															<c:set var="compt"  value="${compt}+1"/>
+														</c:forEach>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+
+
+								</div>
+								<div class="modal-footer">
+									<a class="btn btn-secondary" data-dismiss="modal">Close</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
+	
+	
+	
+	<div class="modal fade" id="newClassModal" tabindex="-1" role="dialog"
+		aria-labelledby="newTodoLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ModalLabel">New Class</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/WebTodoList/addClassControllerServlet" method="post">
+						<div class="form-group">
+							<label for="message-text" class="col-form-label">Class name:</label>
+							<textarea class="form-control" id="classname"
+								name="classname"></textarea>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-success">Add</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
