@@ -67,10 +67,17 @@ public class LoginControllerServlet extends HttpServlet {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
-		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), request.getParameter("password"))) {
-			tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"),
+		String password = null;
+		try {
+			password = Security.sha1(request.getParameter("password"));
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"),password )) {
+			tododbutil.getUser(request.getParameter("usernameOrEmail"), password,
 					(PublicKey) session.getAttribute("publicKey"));
-			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"),
+			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), password,
 					(PublicKey) session.getAttribute("publicKey"));
 			Cookie cookie = new Cookie("displayUsername", request.getParameter("usernameOrEmail"));
 			cookie.setMaxAge(60 * 60 * 24 * 30);
