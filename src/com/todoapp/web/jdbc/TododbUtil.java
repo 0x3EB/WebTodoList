@@ -274,7 +274,7 @@ public class TododbUtil {
 		PreparedStatement myStmt = null;
 		try {
 			myConn = dataSource.getConnection();
-			String sql = "select * from class where idclassid=?";
+			String sql = "select * from class where id=?";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, id);
 			ResultSet result = myStmt.executeQuery();
