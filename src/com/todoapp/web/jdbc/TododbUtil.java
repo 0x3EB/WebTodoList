@@ -189,10 +189,11 @@ public class TododbUtil {
 		List<Todo> listTodos = new ArrayList<Todo>();
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
+		User instructor = null;
 		String sql;
 		try {
 			myConn = dataSource.getConnection();
-			sql = "select idtodo from todoclass where idClass=(SELECT idclass FROM user WHERE id=?)";
+			sql = "select * from todoclass where idClass=(SELECT idclass FROM user WHERE id=?)";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
@@ -202,11 +203,22 @@ public class TododbUtil {
 				myStmt1.setString(1, result.getString("idtodo"));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
+					sql = "select * from user where id=?";
+					myStmt = myConn.prepareStatement(sql);
+					myStmt.setString(1, res.getString("idinstructor"));
+					ResultSet result2 = myStmt.executeQuery();
+					if (result2.next()) {
+						instructor = new User(result2.getString("name"), result2.getString("lastname"),
+								result2.getString("username"), result2.getString("email"));
+					}
+					
+					
 					String id = Security.EncryptedString(res.getString("id"), key);
-					Todo t = new Todo(id, res.getString("description"), u);
+					Todo t = new Todo(id, res.getString("description"), instructor);
 					listTodos.add(t);
 				}
 			}
+
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		} finally {
