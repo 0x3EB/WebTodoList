@@ -248,10 +248,10 @@ public class TododbUtil {
 			myStmt = myConn.prepareStatement(sql);
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Classroom c = new Classroom(Integer.parseInt(result.getString("idclassid")),result.getString("name"));
+				Classroom c = new Classroom(Integer.parseInt(result.getString("id")),result.getString("name"));
 				sql = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
-				myStmt1.setString(1, result.getString("idclassid"));
+				myStmt1.setString(1, result.getString("id"));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
 					User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"), res.getString("email"));
@@ -320,7 +320,7 @@ public class TododbUtil {
 		PreparedStatement myStmt = null;
 		try {
 			myConn = dataSource.getConnection();
-			String sql = "update class set name=? where idclassid=?";
+			String sql = "update class set name=? where id=?";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, name);
 			myStmt.setString(2, id);
