@@ -168,7 +168,7 @@
 						<div class="form-group">
 							<label for="message-text" class="col-form-label">Description:</label>
 							<textarea class="form-control" id="description"
-								name="description"></textarea>
+								name="description" required></textarea>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"

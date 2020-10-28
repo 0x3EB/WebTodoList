@@ -36,7 +36,8 @@
 								<img src="img/logo-esilv-ecole-ingenieur.png" />
 								<h4 class="card-title">ToDo Web App</h4>
 							</div>
-							<p class="description text-center">Fill informations to login..</p>
+							<p class="description text-center">Fill informations to
+								login..</p>
 							<div class="card-body">
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -44,8 +45,9 @@
 											class="material-icons">face</i>
 										</span>
 									</div>
-									<input type="text" class="form-control"
-										placeholder="Username / Email..." name="usernameOrEmail" required autofocus>
+									<input value="${displayUsername}" type="text"
+										class="form-control" placeholder="Username / Email..."
+										name="usernameOrEmail" required autofocus>
 								</div>
 								<div class="input-group">
 									<div class="input-group-prepend">
@@ -58,7 +60,8 @@
 								</div>
 							</div>
 							<div class="footer text-center">
-								<button class="btn btn-rose btn-round btn-wd btn-lg" type="submit">Login</button>
+								<button class="btn btn-rose btn-round btn-wd btn-lg"
+									type="submit">Login</button>
 							</div>
 						</form>
 					</div>

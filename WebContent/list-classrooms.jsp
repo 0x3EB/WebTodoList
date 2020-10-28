@@ -47,7 +47,7 @@
 					<tr>
 						<td>${classe.name}</td>
 						<td>${classe.getNumberOfStudents()}</td>
-						<td>True</td>
+						<td>${classe.archivage}</td>
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
 							data-toggle="modal" data-target="#largeModal-${classe.id}"></a> 

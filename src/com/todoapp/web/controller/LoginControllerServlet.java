@@ -7,6 +7,7 @@ import java.security.PublicKey;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +43,14 @@ public class LoginControllerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("displayUsername")) {
+					request.setAttribute("displayUsername", cookie.getValue());
+				}
+			}
+		}
 		request.getRequestDispatcher("/signin.jsp").forward(request, response);
 	}
 
@@ -63,6 +72,9 @@ public class LoginControllerServlet extends HttpServlet {
 					(PublicKey) session.getAttribute("publicKey"));
 			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), request.getParameter("password"),
 					(PublicKey) session.getAttribute("publicKey"));
+			Cookie cookie = new Cookie("displayUsername", request.getParameter("usernameOrEmail"));
+			cookie.setMaxAge(60 * 60 * 24 * 30);
+			response.addCookie(cookie);
 			Security.storeLoggedUser(request.getSession(), user);
 			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
 		} else {

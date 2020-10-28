@@ -8,6 +8,7 @@ public class Classroom {
 	private String name;
 	private List<User> eleves;
 	private List<Todo> todos;
+	private boolean archivage = false;
 
 	public Classroom(int id, String name) {
 		this.id = id;
@@ -61,5 +62,13 @@ public class Classroom {
 
 	public int getNumberOfStudents() {
 		return this.eleves.size();
+	}
+	
+	public boolean getArchivage() {
+		return this.archivage;
+	}
+	
+	public void setArchivage(boolean val) {
+		this.archivage = val;
 	}
 }
