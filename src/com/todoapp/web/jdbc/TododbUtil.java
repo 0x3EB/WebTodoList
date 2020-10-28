@@ -266,6 +266,37 @@ public class TododbUtil {
 		}
 		return lst;
 	}
+	
+	
+	public Classroom getClassroom(String id) {
+		Classroom c = null;
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "select * from class where idclassid=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, id);
+			ResultSet result = myStmt.executeQuery();
+			if (result.next()) {
+				c = new Classroom(Integer.parseInt(id),result.getString("name"));
+			}
+			String sql1 = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
+			PreparedStatement myStmt1 = myConn.prepareStatement(sql1);
+			myStmt1.setString(1, id);
+			ResultSet res = myStmt1.executeQuery();
+			while (res.next()) {
+				User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"), res.getString("email"));
+				c.addEleve(u);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(myConn, myStmt, null);
+		}
+		return c;
+	}
+	
 
 	public void updateTodo(Todo t, PrivateKey key) {
 		Connection myConn = null;
@@ -283,6 +314,23 @@ public class TododbUtil {
 			close(myConn, myStmt, null);
 		}
 	}
+	
+	public void updateClass(String id, String name) {
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "update class set name=? where idclassid=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, name);
+			myStmt.setString(2, id);
+			myStmt.execute();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(myConn, myStmt, null);
+		}
+	}
 
 	public void addTodo(Todo t) throws SQLException {
 		Connection myConn = dataSource.getConnection();
@@ -291,6 +339,25 @@ public class TododbUtil {
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, t.getDescription());
 			preparedStmt.setString(2, Integer.toString(t.getIdinstructor().getId()));
+			preparedStmt.executeUpdate();
+			myConn.close();
+		} catch (Exception e) {
+			System.err.println("Got an exception! ");
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	public void addStudent(String username, String email, String id, String name, String lastname) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "INSERT INTO user(username, password, email, idrole, idclass, name, lastname) VALUES (?,?,?,1,?,?,?)";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, username);
+			preparedStmt.setString(2, username);
+			preparedStmt.setString(3, email);
+			preparedStmt.setString(4, id);
+			preparedStmt.setString(5, name);
+			preparedStmt.setString(6, lastname);
 			preparedStmt.executeUpdate();
 			myConn.close();
 		} catch (Exception e) {

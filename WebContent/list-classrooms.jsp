@@ -41,6 +41,9 @@
 			</thead>
 			<tbody>
 				<c:forEach var="classe" items="${CLASSROOMS }">
+					<c:url var="EditClass" value="editClassroomController">
+						<c:param name="classeId" value="${classe.id}" />
+					</c:url>
 					<tr>
 						<td>${classe.name}</td>
 						<td>${classe.getNumberOfStudents()}</td>
@@ -48,9 +51,8 @@
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
 							data-toggle="modal" data-target="#largeModal-${classe.id}"></a> 
-							<a href="#" class="btn btn-info btn-round fa fa-edit" role="button"></a>
-							<a href="#" class="btn btn-danger  btn-round fa fa-trash"
-							role="button" data-toggle="modal" data-target="#deleteModal-"></a></td>
+							<a href="${ EditClass }" class="btn btn-info btn-round fa fa-edit" role="button"></a>
+							</td>
 					</tr>
 					<div class="modal fade bd-visu-modal-lg" id="largeModal-${classe.id}"
 						tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
@@ -73,10 +75,10 @@
 													<div class="tab-pane" id="profile">
 													</div>
 													<div class="tab-pane active" id="messages">
-													<c:set var="compt"  value="1"/>
+														<c:set var="compt"  value="1"/>
 														<c:forEach var = "e" items="${classe.eleves}">
-															<c:out value = "${compt}"/>: <c:out value = "${e.lastname}"/> <c:out value = "${e.name}"/><p>
-															<c:set var="compt"  value="${compt}+1"/>
+															<c:out value = "${compt}"/>: <c:out value = "${e.lastname}"/> <c:out value = "${e.name}"/><br>
+															<c:set var="compt"  value="${compt+1}"/>
 														</c:forEach>
 													</div>
 												</div>
