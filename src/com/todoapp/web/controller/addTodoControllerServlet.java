@@ -34,16 +34,18 @@ public class addTodoControllerServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		User u = (User) session.getAttribute("user");
 		Todo t = new Todo(request.getParameter("description"), u);
 		try {
-			tododbutil.addTodo(t);			
-		}catch(Exception e) {
+			tododbutil.addTodo(t, request.getParameter("classSelect"));
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		response.sendRedirect(request.getContextPath() + "/UserControllerServlet");

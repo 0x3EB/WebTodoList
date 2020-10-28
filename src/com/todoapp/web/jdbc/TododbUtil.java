@@ -248,13 +248,14 @@ public class TododbUtil {
 			myStmt = myConn.prepareStatement(sql);
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Classroom c = new Classroom(Integer.parseInt(result.getString("id")),result.getString("name"));
+				Classroom c = new Classroom(Integer.parseInt(result.getString("id")), result.getString("name"));
 				sql = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
 				myStmt1.setString(1, result.getString("id"));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
-					User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"), res.getString("email"));
+					User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"),
+							res.getString("email"));
 					c.addEleve(u);
 				}
 				lst.add(c);
@@ -266,8 +267,7 @@ public class TododbUtil {
 		}
 		return lst;
 	}
-	
-	
+
 	public Classroom getClassroom(String id) {
 		Classroom c = null;
 		Connection myConn = null;
@@ -279,14 +279,15 @@ public class TododbUtil {
 			myStmt.setString(1, id);
 			ResultSet result = myStmt.executeQuery();
 			if (result.next()) {
-				c = new Classroom(Integer.parseInt(id),result.getString("name"));
+				c = new Classroom(Integer.parseInt(id), result.getString("name"));
 			}
 			String sql1 = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
 			PreparedStatement myStmt1 = myConn.prepareStatement(sql1);
 			myStmt1.setString(1, id);
 			ResultSet res = myStmt1.executeQuery();
 			while (res.next()) {
-				User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"), res.getString("email"));
+				User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"),
+						res.getString("email"));
 				c.addEleve(u);
 			}
 		} catch (Exception e) {
@@ -296,7 +297,36 @@ public class TododbUtil {
 		}
 		return c;
 	}
-	
+
+	public Classroom getClassroomByName(String name) {
+		Classroom c = null;
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		try {
+			myConn = dataSource.getConnection();
+			String sql = "select * from class where name=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, name);
+			ResultSet result = myStmt.executeQuery();
+			if (result.next()) {
+				c = new Classroom(Integer.parseInt(result.getString("id")), name);
+			}
+			String sql1 = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
+			PreparedStatement myStmt1 = myConn.prepareStatement(sql1);
+			myStmt1.setString(1, Integer.toString(c.getId()));
+			ResultSet res = myStmt1.executeQuery();
+			while (res.next()) {
+				User u = new User(res.getString("name"), res.getString("lastname"), res.getString("username"),
+						res.getString("email"));
+				c.addEleve(u);
+			}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(myConn, myStmt, null);
+		}
+		return c;
+	}
 
 	public void updateTodo(Todo t, PrivateKey key) {
 		Connection myConn = null;
@@ -314,7 +344,7 @@ public class TododbUtil {
 			close(myConn, myStmt, null);
 		}
 	}
-	
+
 	public void updateClass(String id, String name) {
 		Connection myConn = null;
 		PreparedStatement myStmt = null;
@@ -332,7 +362,7 @@ public class TododbUtil {
 		}
 	}
 
-	public void addTodo(Todo t) throws SQLException {
+	public void addTodo(Todo t, String classroom) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "INSERT INTO todo(description,idInstructor) VALUES (?,?)";
@@ -340,13 +370,39 @@ public class TododbUtil {
 			preparedStmt.setString(1, t.getDescription());
 			preparedStmt.setString(2, Integer.toString(t.getIdinstructor().getId()));
 			preparedStmt.executeUpdate();
-			myConn.close();
 		} catch (Exception e) {
 			System.err.println("Got an exception! ");
 			System.err.println(e.getMessage());
 		}
+
+		Todo todo = null;
+		PreparedStatement myStmt = null;
+		try {
+			String sql = "select * from todo where idInstructor=?";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, Integer.toString(t.getIdinstructor().getId()));
+			ResultSet result = myStmt.executeQuery();
+			if (result.next()) {
+				todo = new Todo(result.getString("id"), result.getString("description"), t.getIdinstructor());
+			}
+		} catch (Exception e) {
+			System.err.println("ERR SELECT");
+			System.err.println(e.getMessage());
+		}
+
+		try {
+			String sql2 = "INSERT INTO todoclass(idclass,idtodo) VALUES (?,?)";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql2);
+			preparedStmt.setString(1, Integer.toString(getClassroomByName(classroom).getId()));
+			preparedStmt.setString(2, todo.getId());
+			preparedStmt.executeUpdate();
+			myConn.close();
+		} catch (Exception e) {
+			System.err.println("INSERT 2");
+			System.err.println(e.getMessage());
+		}
 	}
-	
+
 	public void addStudent(String username, String email, String id, String name, String lastname) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
@@ -365,7 +421,7 @@ public class TododbUtil {
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	public void addClass(Classroom c) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {

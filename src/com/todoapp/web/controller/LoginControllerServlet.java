@@ -74,7 +74,7 @@ public class LoginControllerServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"),password )) {
+		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), password)) {
 			tododbutil.getUser(request.getParameter("usernameOrEmail"), password,
 					(PublicKey) session.getAttribute("publicKey"));
 			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), password,

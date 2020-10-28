@@ -159,7 +159,7 @@
 					<form action="/WebTodoList/addTodoControllerServlet" method="post">
 						<div class="form-group">
 							<label for="recipient-name" class="col-form-label">Class:</label>
-							<select class="form-control" id="class" name="class">
+							<select class="form-control" id="class" name="classSelect">
 								<c:forEach var="classroom" items="${CLASSROOMS_LIST}">
 									<option>${classroom.name}</option>
 								</c:forEach>
