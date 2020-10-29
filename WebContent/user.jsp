@@ -51,7 +51,7 @@
 					<tr>
 						<td><a href="../index.html"> <i class="material-icons">done_all</i>
 						</a></td>
-						<td>${todo.idinstructor.username}</td>
+						<td>${todo.idinstructor.name} ${todo.idinstructor.lastname}</td>
 						<td>${todo.description}</td>
 						<td>${todo.description}</td>
 						<td><a href="UserControllerServlet"
@@ -91,7 +91,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Details of
-										the ToDo num : ${todo.id}</h5>
+										the ToDo </h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>

@@ -71,7 +71,6 @@ public class LoginControllerServlet extends HttpServlet {
 		try {
 			password = Security.sha1(request.getParameter("password"));
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), password)) {
