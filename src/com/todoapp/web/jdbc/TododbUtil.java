@@ -211,8 +211,7 @@ public class TododbUtil {
 						instructor = new User(result2.getString("name"), result2.getString("lastname"),
 								result2.getString("username"), result2.getString("email"));
 					}
-					
-					
+
 					String id = Security.EncryptedString(res.getString("id"), key);
 					Todo t = new Todo(id, res.getString("description"), instructor);
 					listTodos.add(t);
@@ -260,8 +259,9 @@ public class TododbUtil {
 			myStmt = myConn.prepareStatement(sql);
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				boolean archivage = (Integer.parseInt(result.getString("archivage"))==1);
-				Classroom c = new Classroom(Integer.parseInt(result.getString("id")), result.getString("name"), archivage);
+				boolean archivage = (Integer.parseInt(result.getString("archivage")) == 1);
+				Classroom c = new Classroom(Integer.parseInt(result.getString("id")), result.getString("name"),
+						archivage);
 				sql = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
 				myStmt1.setString(1, result.getString("id"));
@@ -391,7 +391,7 @@ public class TododbUtil {
 		Todo todo = null;
 		PreparedStatement myStmt = null;
 		try {
-			String sql = "select * from todo where idInstructor=?";
+			String sql = "select * from todo where idInstructor=? ORDER BY id DESC";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, Integer.toString(t.getIdinstructor().getId()));
 			ResultSet result = myStmt.executeQuery();
@@ -461,7 +461,7 @@ public class TododbUtil {
 			System.err.println("Goot a exception");
 		}
 	}
-	
+
 	public void archiveClass(String id) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
@@ -490,7 +490,7 @@ public class TododbUtil {
 			System.err.println("Goot a exception");
 		}
 	}
-	
+
 	private void close(Connection myConn, Statement myStmt, ResultSet myRs) {
 		try {
 			if (myStmt != null)
