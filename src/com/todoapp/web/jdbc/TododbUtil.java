@@ -260,7 +260,8 @@ public class TododbUtil {
 			myStmt = myConn.prepareStatement(sql);
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				Classroom c = new Classroom(Integer.parseInt(result.getString("id")), result.getString("name"));
+				boolean archivage = (Integer.parseInt(result.getString("archivage"))==1);
+				Classroom c = new Classroom(Integer.parseInt(result.getString("id")), result.getString("name"), archivage);
 				sql = "SELECT * FROM user WHERE idrole=1 AND idClass=?";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
 				myStmt1.setString(1, result.getString("id"));
@@ -454,6 +455,19 @@ public class TododbUtil {
 			String sql = "DELETE FROM todo WHERE id=?";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setInt(1, id);
+			preparedStmt.executeUpdate();
+			myConn.close();
+		} catch (Exception e) {
+			System.err.println("Goot a exception");
+		}
+	}
+	
+	public void archiveClass(String id) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "UPDATE class SET archivage=true WHERE id=?";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, id);
 			preparedStmt.executeUpdate();
 			myConn.close();
 		} catch (Exception e) {

@@ -35,66 +35,97 @@
 				<tr>
 					<th>Name</th>
 					<th>Number of students</th>
-					<th>Active</th>
+					<th>Archive</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="classe" items="${CLASSROOMS }">
-					<c:url var="EditClass" value="editClassroomController">
-						<c:param name="classeId" value="${classe.id}" />
-					</c:url>
-					<tr>
-						<td>${classe.name}</td>
-						<td>${classe.getNumberOfStudents()}</td>
-						<td>${classe.archivage}</td>
-						<td><a href="UserControllerServlet"
-							class="btn btn-warning  btn-round fa fa-eye" role="button"
-							data-toggle="modal" data-target="#largeModal-${classe.id}"></a> 
-							<a href="${ EditClass }" class="btn btn-info btn-round fa fa-edit" role="button"></a>
-							</td>
-					</tr>
-					<div class="modal fade bd-visu-modal-lg" id="largeModal-${classe.id}"
-						tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-						aria-hidden="true">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLabel">Details of
-										the class : ${classe.name}</h5>
-									<button type="button" class="close" data-dismiss="modal"
-										aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
+					<c:choose>
+    					<c:when test="${classe.archivage=='false'}">
+							<c:url var="EditClass" value="editClassroomController">
+								<c:param name="classeId" value="${classe.id}" />
+							</c:url>
+							<tr>
+								<td>${classe.name}</td>
+								<td>${classe.getNumberOfStudents()}</td>
+								<td>${classe.archivage}</td>
+								<td><a href="UserControllerServlet"
+									class="btn btn-warning  btn-round fa fa-eye" role="button"
+									data-toggle="modal" data-target="#largeModal-${classe.id}"></a> 
+									<a href="${ EditClass }" class="btn btn-info btn-round fa fa-edit" role="button"></a>
+									<a href="#" class="btn btn-danger  btn-round fa fa-trash" role="button"
+										data-toggle="modal" data-target="#archiveModal${classe.id}"></a>
+									</td>
+							</tr>
+							<div class="modal fade" id="archiveModal${classe.id}" tabindex="-1"
+								role="dialog" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Archiving
+												Confirmation</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">Are you sure you you want to
+											archive this Class?</div>
+										<div class="modal-footer">
+											<a class="btn btn-secondary" data-dismiss="modal">Cancel</a> 
+												 <form action="ArchiveClassroomController" method="get">
+												 	<input type="text" id="classeId" name="classeId" value="${classe.id}" hidden="true">
+													<button class="btn btn-success">Yes</button>
+												 </form>
+										</div>
+									</div>
 								</div>
-								<div class="modal-body">
-									<div>
-										<div class="card card-nav-tabs">
-											<div class="card-body ">
-												<div class="tab-content text-center">
-													<div class="tab-pane" id="profile">
-													</div>
-													<div class="tab-pane active" id="messages">
-														<c:set var="compt"  value="1"/>
-														<c:forEach var = "e" items="${classe.eleves}">
-															<c:out value = "${compt}"/>: <c:out value = "${e.lastname}"/> <c:out value = "${e.name}"/><br>
-															<c:set var="compt"  value="${compt+1}"/>
-														</c:forEach>
+							</div>
+							<div class="modal fade bd-visu-modal-lg" id="largeModal-${classe.id}"
+								tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Details of
+												the class : ${classe.name}</h5>
+											<button type="button" class="close" data-dismiss="modal"
+												aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div>
+												<div class="card card-nav-tabs">
+													<div class="card-body ">
+														<div class="tab-content text-center">
+															<div class="tab-pane" id="profile">
+															</div>
+															<div class="tab-pane active" id="messages">
+																<c:set var="compt"  value="1"/>
+																<c:forEach var = "e" items="${classe.eleves}">
+																	<c:out value = "${compt}"/>: <c:out value = "${e.lastname}"/> <c:out value = "${e.name}"/><br>
+																	<c:set var="compt"  value="${compt+1}"/>
+																</c:forEach>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
+		
+		
+		
+										</div>
+										<div class="modal-footer">
+											<a class="btn btn-secondary" data-dismiss="modal">Close</a>
 										</div>
 									</div>
-
-
-
-								</div>
-								<div class="modal-footer">
-									<a class="btn btn-secondary" data-dismiss="modal">Close</a>
 								</div>
 							</div>
-						</div>
-					</div>
+						</c:when>
+					</c:choose>
 				</c:forEach>
 			</tbody>
 		</table>

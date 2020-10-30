@@ -10,6 +10,14 @@ public class Classroom {
 	private List<Todo> todos;
 	private boolean archivage = false;
 
+	public Classroom(int id, String name, boolean archivage) {
+		this.id = id;
+		this.name = name;
+		this.archivage = archivage;
+		this.eleves = new ArrayList<>();
+		this.todos = new ArrayList<>();
+	}
+	
 	public Classroom(int id, String name) {
 		this.id = id;
 		this.name = name;
