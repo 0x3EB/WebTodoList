@@ -24,37 +24,37 @@
 <body class="profile-page sidebar-collapse">
 	<jsp:include page="menu3.jsp" />
 	<div class="container">
-		<form action="" method="post">
+		<form action="/WebTodoList/SettingsControllerServlet" method="post">
 			<div class="form-group">
 				<label for="message-text" class="col-form-label">Role:</label> <input
 					type="text" class="form-control" id="description"
-					name="description" value="${sessionScope.user.idrole.libelle }"
+					name="role" value="${sessionScope.user.idrole.libelle }"
 					required readonly>
 			</div>
 			<div class="form-group">
 				<label for="message-text" class="col-form-label">Username:</label> <input
 					type="text" class="form-control" id="description"
-					name="description" value="${sessionScope.user.username }" required>
+					name="username" value="${sessionScope.user.username }" required>
 			</div>
 			<div class="form-group">
 				<label for="message-text" class="col-form-label">Name:</label> <input
 					type="text" class="form-control" id="description"
-					name="description" value="${sessionScope.user.name }" readonly>
+					name="name" value="${sessionScope.user.name }" readonly>
 			</div>
 			<div class="form-group">
 				<label for="message-text" class="col-form-label">Lastname:</label> <input
 					type="text" class="form-control" id="description"
-					name="description" value="${sessionScope.user.lastname }" readonly>
+					name="lastname" value="${sessionScope.user.lastname }" readonly>
 			</div>
 			<div class="form-group">
 				<label for="message-text" class="col-form-label">E-Mail:</label> <input
 					type="text" class="form-control" id="description"
-					name="description" value="${sessionScope.user.email }" required>
+					name="email" value="${sessionScope.user.email }">
 			</div>
 			<div class="form-group">
 				<label for="message-text" class="col-form-label">Password:</label> <input
 					class="form-control" id="description" type="password"
-					name="description" value="${sessionScope.user.password}" required>
+					name="pwd" value="${sessionScope.user.password}" required>
 			</div>
 			<div class="modal-footer">
 				<button type="submit" class="btn btn-success">Update</button>

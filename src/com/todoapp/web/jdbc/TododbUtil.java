@@ -475,6 +475,22 @@ public class TododbUtil {
 		}
 	}
 
+	public void updateUser(User u, String username, String email, String pwd) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "UPDATE user SET username=?,email=?,password=? WHERE id=?";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, username);
+			preparedStmt.setString(2, email);
+			preparedStmt.setString(3, Security.sha1(pwd));
+			preparedStmt.setInt(4, u.getId());
+			preparedStmt.executeUpdate();
+			myConn.close();
+		} catch (Exception e) {
+			System.err.println("Goot a exception");
+		}
+	}
+	
 	private void close(Connection myConn, Statement myStmt, ResultSet myRs) {
 		try {
 			if (myStmt != null)
