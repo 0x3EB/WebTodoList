@@ -438,7 +438,7 @@ public class TododbUtil {
 	public void addClass(Classroom c) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
-			String sql = "INSERT INTO class(name) VALUES(?)";
+			String sql = "INSERT INTO class(name,archivage) VALUES(?,false)";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, c.getName());
 			preparedStmt.executeUpdate();
