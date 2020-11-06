@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <nav class="navbar navbar-inverse navbar-expand-lg bg-dark"
 	color-on-scroll="100" id="sectionsNav">
 	<div class="container">
@@ -27,10 +29,13 @@
 							undone ToDos
 						</a>
 					</div></li>
-				<li class="nav-item"><a class="nav-link"
-					href="ClassroomControllerServlet"> <i
-						class="material-icons">school</i> Classrooms
-				</a></li>
+				<c:if
+					test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'INSTRUCTOR'}">
+					<li class="nav-item"><a class="nav-link"
+						href="ClassroomControllerServlet"> <i class="material-icons">school</i>
+							Classrooms
+					</a></li>
+				</c:if>
 				<li class="nav-item"><a href="javascript:;"
 					class="btn btn-info btn-raised btn-fab btn-round"
 					data-toggle="dropdown"> <i class="material-icons">email</i>

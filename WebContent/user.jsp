@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,10 +25,12 @@
 <body class="profile-page sidebar-collapse">
 	<jsp:include page="menu3.jsp" />
 	<div class="container">
-		<a href="UserControllerServlet"
-			class="btn btn-success  btn-round alignright fa fa-plus"
-			data-toggle="modal" data-target="#newTodoModal" role="button"
-			id="newTodo"></a>
+		<c:if test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'INSTRUCTOR'}">
+			<a href="UserControllerServlet"
+				class="btn btn-success  btn-round alignright fa fa-plus"
+				data-toggle="modal" data-target="#newTodoModal" role="button"
+				id="newTodo"></a>
+		</c:if>
 		<table data-toggle="table" data-search="true" data-pagination="true"
 			data-show_columns="false">
 
@@ -51,7 +54,7 @@
 					<tr>
 						<td><a href="../index.html"> <i class="material-icons">done_all</i>
 						</a></td>
-						<td>${todo.idinstructor.name} ${todo.idinstructor.lastname}</td>
+						<td>${todo.idinstructor.name}${todo.idinstructor.lastname}</td>
 						<td>${todo.description}</td>
 						<td>${todo.description}</td>
 						<td><a href="UserControllerServlet"
@@ -91,7 +94,7 @@
 							<div class="modal-content">
 								<div class="modal-header">
 									<h5 class="modal-title" id="exampleModalLabel">Details of
-										the ToDo </h5>
+										the ToDo</h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
