@@ -51,7 +51,6 @@ public class AuthentificationFilter implements Filter {
 
 		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
 
-		String loginURI = httpRequest.getContextPath() + "/";
 		boolean isLoginPage1 = httpRequest.getRequestURI().endsWith("WebTodoList");
 		boolean isLoginPage2 = httpRequest.getRequestURI().endsWith("LoginControllerServlet");
 
@@ -69,6 +68,10 @@ public class AuthentificationFilter implements Filter {
 		}
 	}
 
+	/**
+	 * Function that check if the Login is needed in a context page
+	 * @return
+	 */
 	private boolean isLoginRequired() {
 		String requestURL = httpRequest.getRequestURL().toString();
 
@@ -77,7 +80,6 @@ public class AuthentificationFilter implements Filter {
 				return true;
 			}
 		}
-
 		return false;
 	}
 

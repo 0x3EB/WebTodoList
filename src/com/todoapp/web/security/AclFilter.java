@@ -21,8 +21,11 @@ import com.todoapp.web.entities.User;
 public class AclFilter implements Filter {
 	private HttpServletRequest httpRequest;
 
-	private static final String[] InstructorURLs = { "/UserControllerServlet", "/EditTodoControllerServlet","/ClassroomControllerServlet","/editClassroomController" };
-	private static final String[] StudentURLs = { "/UserControllerServlet" };
+	// List of Urls depending of the privileges
+	private static final String[] InstructorURLs = { "/UserControllerServlet", "/EditTodoControllerServlet",
+			"/ClassroomControllerServlet", "/editClassroomController" };
+	private static final String[] StudentURLs = { "/UserControllerServlet", "/DoneTodoControllerServlet",
+			"/AddDoneTodoControllerServlet" };
 
 	/**
 	 * Default constructor.
@@ -46,7 +49,6 @@ public class AclFilter implements Filter {
 		User u = null;
 		httpRequest = (HttpServletRequest) request;
 		String path = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
-
 		if (path.startsWith("/admin/")) {
 			chain.doFilter(request, response);
 			return;
@@ -54,7 +56,6 @@ public class AclFilter implements Filter {
 		HttpSession session = httpRequest.getSession(false);
 		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
 		try {
-
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
@@ -65,6 +66,8 @@ public class AclFilter implements Filter {
 			boolean isStudent = u.getIdrole().getLibelle().toUpperCase().equals(Role.STUDENT);
 			System.out.println(isStudent);
 			if (isStudent && isInstructorRoleRequired())
+				httpRequest.getRequestDispatcher("UserControllerServlet").forward(request, response);
+			else if (!isStudent && isStudentRoleRequired())
 				httpRequest.getRequestDispatcher("UserControllerServlet").forward(request, response);
 			else
 				chain.doFilter(request, response);
@@ -80,27 +83,33 @@ public class AclFilter implements Filter {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * Function that check if the url need to have a instructor privilege
+	 * 
+	 * @return
+	 */
 	private boolean isInstructorRoleRequired() {
 		String requestURL = httpRequest.getRequestURL().toString();
-
 		for (String loginRequiredURL : InstructorURLs) {
 			if (requestURL.contains(loginRequiredURL)) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 
+	/**
+	 * Function that check if the url need to have a student privilege
+	 * 
+	 * @return
+	 */
 	private boolean isStudentRoleRequired() {
 		String requestURL = httpRequest.getRequestURL().toString();
-
 		for (String loginRequiredURL : StudentURLs) {
 			if (requestURL.contains(loginRequiredURL)) {
 				return true;
 			}
 		}
-
 		return false;
 	}
 

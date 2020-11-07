@@ -11,7 +11,7 @@ public class Keys {
 	private PublicKey publicKey;
 
 	public Keys() throws NoSuchAlgorithmException {
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA"); //generate key pair
         keyGen.initialize(2048);
         KeyPair pair = keyGen.generateKeyPair();
         this.privateKey = pair.getPrivate();
