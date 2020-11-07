@@ -24,8 +24,8 @@ import com.todoapp.web.jdbc.TododbUtil;
 /**
  * Servlet implementation class doneTodoControllerServlet
  */
-@WebServlet("/doneTodoControllerServlet")
-public class doneTodoControllerServlet extends HttpServlet {
+@WebServlet("/AddDoneTodoControllerServlet")
+public class AddDoneTodoControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
 	private String id;

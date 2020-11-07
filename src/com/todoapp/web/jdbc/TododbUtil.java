@@ -119,7 +119,7 @@ public class TododbUtil {
 										}
 									}
 									instructor = new User(Integer.parseInt(instructorTodo.getString("id")),
-											instructorTodo.getString("name"), instructorTodo.getString("prenom"),
+											instructorTodo.getString("name"), instructorTodo.getString("lastname"),
 											instructorTodo.getString("username"), instructorTodo.getString("password"),
 											instructorRole, listClassesInstructor);
 								}
@@ -185,6 +185,47 @@ public class TododbUtil {
 		return null;
 	}
 
+	public List<Todo> getStudentTodoDone(User u, PublicKey key) {
+		List<Todo> listTodos = new ArrayList<Todo>();
+		Connection myConn = null;
+		PreparedStatement myStmt = null;
+		User instructor = null;
+		String sql;
+		try {
+			myConn = dataSource.getConnection();
+			sql = "select * from todoclass where idClass=(SELECT idclass FROM user WHERE id=?)";
+			myStmt = myConn.prepareStatement(sql);
+			myStmt.setString(1, Integer.toString(u.getId()));
+			ResultSet result = myStmt.executeQuery();
+			while (result.next()) {
+				sql = "SELECT * FROM todo where id=? and id in (SELECT idtodo from tododone where iduser=?) ORDER BY id DESC";
+				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
+				myStmt1.setString(1, result.getString("idtodo"));
+				myStmt1.setString(2, Integer.toString(u.getId()));
+				ResultSet res = myStmt1.executeQuery();
+				while (res.next()) {
+					sql = "select * from user where id=?";
+					myStmt = myConn.prepareStatement(sql);
+					myStmt.setString(1, res.getString("idinstructor"));
+					ResultSet result2 = myStmt.executeQuery();
+					if (result2.next()) {
+						instructor = new User(result2.getString("name"), result2.getString("lastname"),
+								result2.getString("username"), result2.getString("email"));
+					}
+					String id = Security.EncryptedString(res.getString("id"), key);
+					Todo t = new Todo(id, res.getString("description"), instructor);
+					listTodos.add(t);
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			close(null, myStmt, null);
+		}
+		return listTodos;
+	}
+
 	public List<Todo> getStudentTodo(User u, PublicKey key) {
 		List<Todo> listTodos = new ArrayList<Todo>();
 		Connection myConn = null;
@@ -198,9 +239,11 @@ public class TododbUtil {
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				sql = "SELECT * FROM todo where id=? and id not in (SELECT idtodo from tododone)";
+				sql = "SELECT * FROM todo where id=? and id not in (SELECT idtodo from tododone where iduser=?)";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
 				myStmt1.setString(1, result.getString("idtodo"));
+				System.out.println(u.getId());
+				myStmt1.setString(2, Integer.toString(u.getId()));
 				ResultSet res = myStmt1.executeQuery();
 				while (res.next()) {
 					sql = "select * from user where id=?";
@@ -232,7 +275,7 @@ public class TododbUtil {
 		PreparedStatement myStmt = null;
 		try {
 			myConn = dataSource.getConnection();
-			String sql = "select * from todo where idInstructor=?";
+			String sql = "select * from todo where idInstructor=? ORDER BY id DESC";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
@@ -449,7 +492,8 @@ public class TododbUtil {
 		}
 	}
 
-	public void removeTodo(String id, PrivateKey key) throws SQLException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+	public void removeTodo(String id, PrivateKey key) throws SQLException, InvalidKeyException,
+			IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "DELETE FROM todo WHERE id=?";
@@ -471,12 +515,13 @@ public class TododbUtil {
 		}
 	}
 
-	public void addTodoDone(String idTodo, User u, PrivateKey key) throws SQLException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+	public void addTodoDone(String idTodo, User u, PrivateKey key) throws SQLException, InvalidKeyException,
+			IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,true)";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
-			preparedStmt.setString(1, Integer.toBinaryString(u.getId()));
+			preparedStmt.setString(1, Integer.toString(u.getId()));
 			preparedStmt.setString(2, Security.decrypt(idTodo, key));
 			preparedStmt.executeUpdate();
 		} catch (Exception e) {

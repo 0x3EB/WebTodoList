@@ -54,7 +54,7 @@
 					<c:url var="DeleteTodo" value="DeleteTodoControllerServlet">
 						<c:param name="todoId" value="${todo.id}" />
 					</c:url>
-					<c:url var="DoneTodo" value="doneTodoControllerServlet">
+					<c:url var="DoneTodo" value="AddDoneTodoControllerServlet">
 						<c:param name="todoId" value="${todo.id}" />
 					</c:url>
 					<tr>
