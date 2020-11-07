@@ -64,7 +64,8 @@
 								data-target="#doneModal"> <i class="material-icons">done_all</i>
 							</a></td>
 						</c:if>
-						<td class="${todo.id}">${todo.idinstructor.name}${todo.idinstructor.lastname}</td>
+						<td class="${todo.id}">${todo.idinstructor.name}
+							${todo.idinstructor.lastname}</td>
 						<td class="${todo.id }">${todo.description}</td>
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
@@ -178,6 +179,26 @@
 			</tbody>
 		</table>
 	</div>
+	<c:if test="${not empty justLogged}">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Welcome Message</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">Welcome back
+					${sessionScope.user.lastname } ${sessionScope.user.name } ! How are
+					you doing ?</div>
+			</div>
+		</div>
+	</div>
+	</c:if>
+
 	<div class="modal fade" id="newTodoModal" tabindex="-1" role="dialog"
 		aria-labelledby="newTodoLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
@@ -225,6 +246,11 @@
 	<script type="text/javascript" src="js/bootstrap-table.js"></script>
 	<script type="text/javascript" src="js/bootstrap-table.min.js"></script>
 	<script src="js/material-kit.js?v=2.0.7" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(window).on('load', function() {
+				$('#myModal').modal('show');
+			});
+	</script>
 </body>
 </html>
 

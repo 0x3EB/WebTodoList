@@ -88,6 +88,7 @@ public class LoginControllerServlet extends HttpServlet {
 			cookie.setMaxAge(60 * 60 * 24 * 30); // set cookie age 1 year
 			response.addCookie(cookie);
 			Security.storeLoggedUser(request.getSession(), user); // store the user in session
+			request.setAttribute("justLogged", "yes");
 			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
 		} else {
 			// display error message
