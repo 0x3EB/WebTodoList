@@ -7,7 +7,7 @@
 	<div class="container">
 		<div class="navbar-translate">
 			<a class="navbar-brand" href="UserControllerServlet"> ToDo
-				Dynamic web APP</a>
+				Dynamic web App</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				aria-expanded="false" aria-label="Toggle navigation">
 				<span class="sr-only">ToDo Dynamic web APP</span> <span
@@ -24,9 +24,9 @@
 				</a>
 					<div class="dropdown-menu dropdown-with-icons">
 						<a href="#" class="dropdown-item"> <i class="material-icons">filter_list</i>Display
-							all ToDos
+							ToDos undone
 						</a> <a href="#" class="dropdown-item"> <i class="material-icons">content_paste</i>Display
-							undone ToDos
+							 ToDos done
 						</a>
 					</div></li>
 				<c:if

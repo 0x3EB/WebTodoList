@@ -462,6 +462,34 @@ public class TododbUtil {
 		}
 	}
 
+	public void addTodoDone(String idTodo, User u, PrivateKey key) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,True)";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, Integer.toBinaryString(u.getId()));
+			preparedStmt.setString(2, Security.decrypt(idTodo, key));
+			preparedStmt.executeUpdate();
+		} catch (Exception e) {
+			System.err.println("Got an exception! ");
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public void removeTodoDone(String idTodo, User u, PrivateKey key) throws SQLException {
+		Connection myConn = dataSource.getConnection();
+		try {
+			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,False)";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, Integer.toBinaryString(u.getId()));
+			preparedStmt.setString(2, Security.decrypt(idTodo, key));
+			preparedStmt.executeUpdate();
+		} catch (Exception e) {
+			System.err.println("Got an exception! ");
+			System.err.println(e.getMessage());
+		}
+	}
+
 	public void archiveClass(String id) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {

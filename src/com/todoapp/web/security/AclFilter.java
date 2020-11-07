@@ -21,7 +21,7 @@ import com.todoapp.web.entities.User;
 public class AclFilter implements Filter {
 	private HttpServletRequest httpRequest;
 
-	private static final String[] InstructorURLs = { "/UserControllerServlet", "/EditTodoControllerServlet" };
+	private static final String[] InstructorURLs = { "/UserControllerServlet", "/EditTodoControllerServlet","/ClassroomControllerServlet","/editClassroomController" };
 	private static final String[] StudentURLs = { "/UserControllerServlet" };
 
 	/**

@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +25,8 @@
 <body class="profile-page sidebar-collapse">
 	<jsp:include page="menu3.jsp" />
 	<div class="container">
-		<c:if test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'INSTRUCTOR'}">
+		<c:if
+			test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'INSTRUCTOR'}">
 			<a href="UserControllerServlet"
 				class="btn btn-success  btn-round alignright fa fa-plus"
 				data-toggle="modal" data-target="#newTodoModal" role="button"
@@ -36,10 +37,9 @@
 
 			<thead>
 				<tr>
-					<th></th>
+					<th>Done ?</th>
 					<th>Instructor</th>
 					<th>Description</th>
-					<th>Classroom</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -52,18 +52,20 @@
 						<c:param name="todoId" value="${todo.id}" />
 					</c:url>
 					<tr>
-						<td><a href="../index.html"> <i class="material-icons">done_all</i>
+						<td><a href="#" role="button" data-toggle="modal" data-target="#doneModal"> <i
+								class="material-icons">done_all</i>
 						</a></td>
-						<td>${todo.idinstructor.name}${todo.idinstructor.lastname}</td>
-						<td>${todo.description}</td>
-						<td>${todo.description}</td>
+						<td class="${todo.id}">${todo.idinstructor.name}${todo.idinstructor.lastname}</td>
+						<td class="${todo.id }">${todo.description}</td>
 						<td><a href="UserControllerServlet"
 							class="btn btn-warning  btn-round fa fa-eye" role="button"
-							data-toggle="modal" data-target="#largeModal-${todo.id}"></a> <a
-							href="${EditTodo}" class="btn btn-info btn-round fa fa-edit"
-							role="button"></a> <a href="#"
-							class="btn btn-danger  btn-round fa fa-trash" role="button"
-							data-toggle="modal" data-target="#deleteModal"></a></td>
+							data-toggle="modal" data-target="#largeModal-${todo.id}"></a> <c:if
+								test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'INSTRUCTOR'}">
+								<a href="${EditTodo}" class="btn btn-info btn-round fa fa-edit"
+									role="button"></a>
+								<a href="#" class="btn btn-danger  btn-round fa fa-trash"
+									role="button" data-toggle="modal" data-target="#deleteModal"></a>
+							</c:if></td>
 					</tr>
 					<div class="modal fade" id="deleteModal" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalLabel"
@@ -80,6 +82,27 @@
 								</div>
 								<div class="modal-body">Are you sure you you want to
 									delete this ToDo?</div>
+								<div class="modal-footer">
+									<a class="btn btn-secondary" data-dismiss="modal">Cancel</a> <a
+										class="btn btn-success" href="${DeleteTodo}">Yes</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal fade" id="doneModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">Done
+										Confirmation</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">Have you done this todo?</div>
 								<div class="modal-footer">
 									<a class="btn btn-secondary" data-dismiss="modal">Cancel</a> <a
 										class="btn btn-success" href="${DeleteTodo}">Yes</a>
