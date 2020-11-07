@@ -1,6 +1,7 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.security.PublicKey;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -32,11 +33,13 @@ public class addStudentControllerServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("idClass");
 		String username = (String) request.getParameter("username");
@@ -44,11 +47,12 @@ public class addStudentControllerServlet extends HttpServlet {
 		String lastname = (String) request.getParameter("lastname");
 		String mail = (String) request.getParameter("mail");
 		try {
-			tododbutil.addStudent(username, mail, id, name, lastname);;			
-		}catch(Exception e) {
+			tododbutil.addStudent(username, mail, id, name, lastname, (PublicKey) session.getAttribute("publickey"));
+			;
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		response.sendRedirect(request.getContextPath() + "/editClassroomController?classeId="+id);
+		response.sendRedirect(request.getContextPath() + "/editClassroomController?classeId=" + id);
 	}
 
 }

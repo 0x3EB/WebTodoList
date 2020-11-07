@@ -65,6 +65,7 @@ public class LoginControllerServlet extends HttpServlet {
 			Keys keys = new Keys();
 			Security.storeKeysSession(session, keys);
 		} catch (NoSuchAlgorithmException e) {
+			System.err.println("erreur clefs");
 			e.printStackTrace();
 		}
 		String password = null;
@@ -73,6 +74,7 @@ public class LoginControllerServlet extends HttpServlet {
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+		System.out.println(password);
 		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), password)) {
 			tododbutil.getUser(request.getParameter("usernameOrEmail"), password,
 					(PublicKey) session.getAttribute("publicKey"));
@@ -84,6 +86,7 @@ public class LoginControllerServlet extends HttpServlet {
 			Security.storeLoggedUser(request.getSession(), user);
 			response.sendRedirect(request.getContextPath() + "/UserControllerServlet");
 		} else {
+			request.setAttribute("errorMessage", "Invalid user or password");
 			request.getRequestDispatcher("/signin.jsp").forward(request, response);
 		}
 	}

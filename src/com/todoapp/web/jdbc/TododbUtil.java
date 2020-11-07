@@ -36,11 +36,10 @@ public class TododbUtil {
 		boolean rs = false;
 		try {
 			myConn = dataSource.getConnection();
-			String sql = "select * from user where password = ? and email = ? or username = ?";
+			String sql = "select * from user where password = ? and username = ?";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, password);
 			myStmt.setString(2, emailOrUsername);
-			myStmt.setString(3, emailOrUsername);
 			ResultSet result = myStmt.executeQuery();
 			rs = result.next();
 		} catch (Exception e) {
@@ -459,13 +458,13 @@ public class TododbUtil {
 		}
 	}
 
-	public void addStudent(String username, String email, String id, String name, String lastname) throws SQLException {
+	public void addStudent(String username, String email, String id, String name, String lastname, PublicKey key) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "INSERT INTO user(username, password, email, idrole, idclass, name, lastname) VALUES (?,?,?,1,?,?,?)";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, username);
-			preparedStmt.setString(2, username);
+			preparedStmt.setString(2, Security.EncryptedString(username, key));
 			preparedStmt.setString(3, email);
 			preparedStmt.setString(4, id);
 			preparedStmt.setString(5, name);

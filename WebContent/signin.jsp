@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +19,6 @@
 <link rel="stylesheet" type="text/css"
 	href="css/bootstrap-table.min.css">
 <link href="css/material-kit.css?v=2.0.7" rel="stylesheet" />
-<!-- <link rel="stylesheet" type="text/css" href="css/demo.css"> -->
 </head>
 
 
@@ -29,6 +27,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-4 col-md-6 ml-auto mr-auto">
+					<c:if test="${not empty errorMessage}">
+						<div class="alert alert-danger" role="alert">${errorMessage}</div>
+					</c:if>
 					<div class="card card-login">
 						<form class="form" action="/WebTodoList/LoginControllerServlet"
 							method="post">
