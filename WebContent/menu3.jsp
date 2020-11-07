@@ -23,9 +23,9 @@
 						class="material-icons">apps</i> ToDo
 				</a>
 					<div class="dropdown-menu dropdown-with-icons">
-						<a href="#" class="dropdown-item"> <i class="material-icons">filter_list</i>Display
+						<a href="UserControllerServlet" class="dropdown-item"> <i class="material-icons">filter_list</i>Display
 							ToDos undone
-						</a> <a href="#" class="dropdown-item"> <i class="material-icons">content_paste</i>Display
+						</a> <a href="DoneTodoControllerServlet" class="dropdown-item"> <i class="material-icons">content_paste</i>Display
 							 ToDos done
 						</a>
 					</div></li>
