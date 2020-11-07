@@ -18,13 +18,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import com.todoapp.web.entities.User;
 import com.todoapp.web.jdbc.TododbUtil;
 
 /**
- * Servlet implementation class DeleteTodoControllerServlet
+ * Servlet implementation class doneTodoControllerServlet
  */
-@WebServlet("/DeleteTodoControllerServlet")
-public class DeleteTodoControllerServlet extends HttpServlet {
+@WebServlet("/doneTodoControllerServlet")
+public class doneTodoControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
 	private String id;
@@ -48,8 +49,9 @@ public class DeleteTodoControllerServlet extends HttpServlet {
 		id = request.getParameter("todoId");
 		HttpSession session = request.getSession();
 		try {
-			tododbutil.removeTodo(id, (PrivateKey) session.getAttribute("privatekey"));
-		} catch (SQLException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException e) {
+			tododbutil.addTodoDone(id, (User) session.getAttribute("user"),
+					(PrivateKey) session.getAttribute("privatekey"));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		response.sendRedirect("UserControllerServlet");

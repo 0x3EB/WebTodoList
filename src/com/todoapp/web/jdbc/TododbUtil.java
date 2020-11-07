@@ -198,7 +198,7 @@ public class TododbUtil {
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
 			while (result.next()) {
-				sql = "SELECT * FROM todo where id=?";
+				sql = "SELECT * FROM todo where id=? and id not in (SELECT idtodo from tododone)";
 				PreparedStatement myStmt1 = myConn.prepareStatement(sql);
 				myStmt1.setString(1, result.getString("idtodo"));
 				ResultSet res = myStmt1.executeQuery();
@@ -449,28 +449,39 @@ public class TododbUtil {
 		}
 	}
 
-	public void removeTodo(int id) throws SQLException {
+	public void removeTodo(String id, PrivateKey key) throws SQLException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
 		Connection myConn = dataSource.getConnection();
 		try {
 			String sql = "DELETE FROM todo WHERE id=?";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
-			preparedStmt.setInt(1, id);
+			preparedStmt.setString(1, Security.decrypt(id, key));
+			preparedStmt.setString(2, Security.decrypt(id, key));
 			preparedStmt.executeUpdate();
 			myConn.close();
 		} catch (Exception e) {
-			System.err.println("Goot a exception");
+			String sql = "DELETE FROM todoclass where idtodo = ?";
+			PreparedStatement preparedStmt = myConn.prepareCall(sql);
+			preparedStmt.setString(1, Security.decrypt(id, key));
+			preparedStmt.executeUpdate();
+			String sql2 = "DELETE FROM todo WHERE id=?";
+			preparedStmt = myConn.prepareCall(sql2);
+			preparedStmt.setString(1, Security.decrypt(id, key));
+			preparedStmt.executeUpdate();
+			myConn.close();
 		}
 	}
 
-	public void addTodoDone(String idTodo, User u, PrivateKey key) throws SQLException {
+	public void addTodoDone(String idTodo, User u, PrivateKey key) throws SQLException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
 		Connection myConn = dataSource.getConnection();
 		try {
-			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,True)";
+			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,true)";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, Integer.toBinaryString(u.getId()));
 			preparedStmt.setString(2, Security.decrypt(idTodo, key));
 			preparedStmt.executeUpdate();
 		} catch (Exception e) {
+			System.err.println(u.getId());
+			System.err.println(Security.decrypt(idTodo, key));
 			System.err.println("Got an exception! ");
 			System.err.println(e.getMessage());
 		}
@@ -479,7 +490,7 @@ public class TododbUtil {
 	public void removeTodoDone(String idTodo, User u, PrivateKey key) throws SQLException {
 		Connection myConn = dataSource.getConnection();
 		try {
-			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,False)";
+			String sql = "INSERT INTO tododone(iduser,idtodo,done) VALUES (?,?,false)";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, Integer.toBinaryString(u.getId()));
 			preparedStmt.setString(2, Security.decrypt(idTodo, key));

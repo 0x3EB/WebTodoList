@@ -37,7 +37,10 @@
 
 			<thead>
 				<tr>
-					<th>Done ?</th>
+					<c:if
+						test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'STUDENT'}">
+						<th>Done ?</th>
+					</c:if>
 					<th>Instructor</th>
 					<th>Description</th>
 					<th>Actions</th>
@@ -51,10 +54,16 @@
 					<c:url var="DeleteTodo" value="DeleteTodoControllerServlet">
 						<c:param name="todoId" value="${todo.id}" />
 					</c:url>
+					<c:url var="DoneTodo" value="doneTodoControllerServlet">
+						<c:param name="todoId" value="${todo.id}" />
+					</c:url>
 					<tr>
-						<td><a href="#" role="button" data-toggle="modal" data-target="#doneModal"> <i
-								class="material-icons">done_all</i>
-						</a></td>
+						<c:if
+							test="${fn:toUpperCase(sessionScope.user.idrole.libelle) == 'STUDENT'}">
+							<td><a href="#" role="button" data-toggle="modal"
+								data-target="#doneModal"> <i class="material-icons">done_all</i>
+							</a></td>
+						</c:if>
 						<td class="${todo.id}">${todo.idinstructor.name}${todo.idinstructor.lastname}</td>
 						<td class="${todo.id }">${todo.description}</td>
 						<td><a href="UserControllerServlet"
@@ -89,9 +98,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="modal fade" id="doneModal" tabindex="-1"
-						role="dialog" aria-labelledby="exampleModalLabel"
-						aria-hidden="true">
+					<div class="modal fade" id="doneModal" tabindex="-1" role="dialog"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -105,7 +113,7 @@
 								<div class="modal-body">Have you done this todo?</div>
 								<div class="modal-footer">
 									<a class="btn btn-secondary" data-dismiss="modal">Cancel</a> <a
-										class="btn btn-success" href="${DeleteTodo}">Yes</a>
+										class="btn btn-success" href="${DoneTodo}">Yes</a>
 								</div>
 							</div>
 						</div>
