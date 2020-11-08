@@ -54,7 +54,8 @@ public class UserControllerServlet extends HttpServlet {
 				lst = tododbutil.getStudentTodo(u, (PublicKey) session.getAttribute("publickey"));
 			}
 			request.setAttribute("TODO_LIST", lst);
-			request.setAttribute("CLASSROOMS_LIST", tododbutil.getAllClassroom());
+			request.setAttribute("CLASSROOMS_LIST",
+					tododbutil.getAllClassroom((PublicKey) session.getAttribute("publickey")));
 			request.getRequestDispatcher("/user.jsp").forward(request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

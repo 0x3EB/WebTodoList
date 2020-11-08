@@ -1,6 +1,7 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import javax.annotation.Resource;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.todoapp.web.jdbc.TododbUtil;
+import com.todoapp.web.security.Security;
 
 /**
  * Servlet implementation class addStudentControllerServlet
@@ -47,12 +49,12 @@ public class addStudentControllerServlet extends HttpServlet {
 		String lastname = (String) request.getParameter("lastname");
 		String mail = (String) request.getParameter("mail");
 		try {
-			tododbutil.addStudent(username, mail, id, name, lastname, (PublicKey) session.getAttribute("publickey"));
-			;
+			tododbutil.addStudent(username, mail, Security.decrypt(id, (PrivateKey) session.getAttribute("privatekey")),
+					name, lastname);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
-		response.sendRedirect(request.getContextPath() + "/editClassroomController?classeId=" + id);
+		response.sendRedirect(request.getContextPath() + "/ClassroomControllerServlet");
 	}
 
 }

@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Classroom {
-	private int id;
+	private String id;
 	private String name;
 	private List<User> eleves;
 	private List<Todo> todos;
 	private boolean archivage = false;
 
-	public Classroom(int id, String name, boolean archivage) {
+	public Classroom(String id, String name, boolean archivage) {
 		this.id = id;
 		this.name = name;
 		this.archivage = archivage;
@@ -18,7 +18,7 @@ public class Classroom {
 		this.todos = new ArrayList<>();
 	}
 	
-	public Classroom(int id, String name) {
+	public Classroom(String id, String name) {
 		this.id = id;
 		this.name = name;
 		this.eleves = new ArrayList<>();
@@ -31,11 +31,11 @@ public class Classroom {
 		this.todos = new ArrayList<>();
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

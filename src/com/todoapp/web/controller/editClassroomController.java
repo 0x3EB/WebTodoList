@@ -1,8 +1,14 @@
 package com.todoapp.web.controller;
 
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 
 import javax.annotation.Resource;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +19,7 @@ import javax.sql.DataSource;
 
 import com.todoapp.web.entities.Classroom;
 import com.todoapp.web.jdbc.TododbUtil;
+import com.todoapp.web.security.Security;
 
 /**
  * Servlet implementation class editClassroomController
@@ -21,6 +28,8 @@ import com.todoapp.web.jdbc.TododbUtil;
 public class editClassroomController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TododbUtil tododbutil;
+	private String id;
+	private String id2;
 
 	@Resource(name = "jdbc/todolist")
 	private DataSource dataSource;
@@ -32,7 +41,6 @@ public class editClassroomController extends HttpServlet {
 		tododbutil = new TododbUtil(dataSource);
 	}
 
-	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -40,27 +48,36 @@ public class editClassroomController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String id = request.getParameter("classeId");
+		id = request.getParameter("classeId");
 		Classroom classe = null;
 		session.setAttribute("idClass", id);
-		classe = tododbutil.getClassroom(id);
+		try {
+			id2 = Security.decrypt(id, (PrivateKey) session.getAttribute("privatekey"));
+		} catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException
+				| NoSuchPaddingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		classe = tododbutil.getClassroom(id, (PrivateKey) session.getAttribute("privatekey"));
 		request.setAttribute("classe", classe);
+		session.setAttribute("idClassNum", id2);
 		request.getRequestDispatcher("edit-class.jsp").forward(request, response);
 	}
-	
-	
+
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+
 		try {
 			HttpSession session = request.getSession();
 			String name = request.getParameter("name");
 			String id = (String) session.getAttribute("idClass");
-			tododbutil.updateClass(id, name);
-		}catch(Exception e) {
+			tododbutil.updateClass(id, name, (PrivateKey) session.getAttribute("privatekey"));
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		response.sendRedirect(request.getContextPath() + "/ClassroomControllerServlet");
