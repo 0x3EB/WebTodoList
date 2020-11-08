@@ -3,6 +3,7 @@ package com.todoapp.web.controller;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.Base64;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
@@ -63,27 +64,29 @@ public class LoginControllerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		Keys keys = null;
 		try {
-			Keys keys = new Keys(); // generate key pair at each connection to have a best security aspect
-			Security.storeKeysSession(session, keys); // store the key pair in session
-		} catch (NoSuchAlgorithmException e) {
-			System.err.println("erreur clefs");
-			e.printStackTrace();
+			keys = new Keys();
+		} catch (NoSuchAlgorithmException e1) {
+			System.err.println("error keys");
+			e1.printStackTrace();
 		}
+
+		// generate key pair at each connection to have a best security aspect
+		Security.storeKeysSession(session, keys); // store the key pair in session
 		String password = null;
 		try {
 			password = Security.sha1(request.getParameter("password")); // pass to the SHA1 algorithm the password
 																		// written in the label form to compare it after
 		} catch (NoSuchAlgorithmException e) {
+			System.err.println("erreur password");
 			e.printStackTrace();
 		}
 		System.out.println(password);
 		// check if the user exists in base
 		if (tododbutil.checkUser(request.getParameter("usernameOrEmail"), password)) {
-			tododbutil.getUser(request.getParameter("usernameOrEmail"), password,
-					(PublicKey) session.getAttribute("publicKey"));
-			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), password,
-					(PublicKey) session.getAttribute("publicKey"));
+			tododbutil.getUser(request.getParameter("usernameOrEmail"), password, keys.getPublicKey());
+			User user = tododbutil.getUser(request.getParameter("usernameOrEmail"), password, keys.getPublicKey());
 			Cookie cookie = new Cookie("displayUsername", request.getParameter("usernameOrEmail"));
 			cookie.setMaxAge(60 * 60 * 24 * 30); // set cookie age 1 year
 			response.addCookie(cookie);

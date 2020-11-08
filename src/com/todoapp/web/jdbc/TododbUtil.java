@@ -133,7 +133,7 @@ public class TododbUtil {
 										ResultSet resultInstructorClassList = myStmt.executeQuery();
 										if (resultInstructorClassList.next()) {
 											Classroom c = new Classroom(
-													Integer.parseInt(resultInstructorClassList.getString("idClass")),
+													Integer.parseInt(resultInstructorClassList.getString("id")),
 													resultInstructorClassList.getString("name"));
 											listClassesInstructor.add(c);
 										}
@@ -179,6 +179,7 @@ public class TododbUtil {
 			}
 
 		} catch (Exception e) {
+			System.err.println("LOGIN ERR");
 			System.err.println(e.getMessage());
 		} finally {
 			close(myConn, myStmt, null);
@@ -236,7 +237,7 @@ public class TododbUtil {
 		String sql;
 		try {
 			myConn = dataSource.getConnection();
-			sql = "select * from todoclass where idClass=(SELECT idclass FROM user WHERE id=?)";
+			sql = "select * from todoclass where idclass=(SELECT idclass FROM user WHERE id=?)";
 			myStmt = myConn.prepareStatement(sql);
 			myStmt.setString(1, Integer.toString(u.getId()));
 			ResultSet result = myStmt.executeQuery();
@@ -313,6 +314,7 @@ public class TododbUtil {
 			}
 
 		} catch (Exception e) {
+			System.err.println("GET STUDENT TODOS");
 			System.out.println(e.getMessage());
 		} finally {
 			close(null, myStmt, null);
@@ -577,7 +579,7 @@ public class TododbUtil {
 			String sql = "INSERT INTO user(username, password, email, idrole, idclass, name, lastname) VALUES (?,?,?,1,?,?,?)";
 			PreparedStatement preparedStmt = myConn.prepareCall(sql);
 			preparedStmt.setString(1, username);
-			preparedStmt.setString(2, Security.EncryptedString(username, key));
+			preparedStmt.setString(2, Security.sha1(username));
 			preparedStmt.setString(3, email);
 			preparedStmt.setString(4, id);
 			preparedStmt.setString(5, name);

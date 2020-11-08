@@ -1,5 +1,6 @@
 package com.todoapp.web.security;
 
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,7 +22,9 @@ import com.todoapp.web.entities.User;
 public class Security {
 
 	/**
-	 * Function that store the Logged user in session to access during the runing time
+	 * Function that store the Logged user in session to access during the runing
+	 * time
+	 * 
 	 * @param session
 	 * @param user
 	 */
@@ -32,6 +35,7 @@ public class Security {
 
 	/**
 	 * Function that store the key pair in session to access during the runing time
+	 * 
 	 * @param session
 	 * @param keys
 	 */
@@ -42,23 +46,35 @@ public class Security {
 
 	/**
 	 * Function that encrypt a string using th SHA1 algorithm
+	 * 
 	 * @param pwd
 	 * @return
 	 * @throws NoSuchAlgorithmException
 	 */
 	public static String sha1(String pwd) throws NoSuchAlgorithmException {
-		MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-		byte[] result = mDigest.digest(pwd.getBytes());
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < result.length; i++) {
-			sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-1");
+			byte[] messageDigest = md.digest(pwd.getBytes());
+
+			BigInteger no = new BigInteger(1, messageDigest);
+			String hashtext = no.toString(16);
+
+			while (hashtext.length() < 32) {
+				hashtext = "0" + hashtext;
+			}
+			System.out.println(hashtext);
+			return hashtext;
 		}
 
-		return sb.toString();
+		catch (NoSuchAlgorithmException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
-	 * Function that encrypt a string using the public key and the RSA algorithm and return it as Byte 
+	 * Function that encrypt a string using the public key and the RSA algorithm and
+	 * return it as Byte
+	 * 
 	 * @param data
 	 * @param publicKey
 	 * @return
@@ -70,13 +86,15 @@ public class Security {
 	 */
 	public static byte[] encrypt(String data, PublicKey publicKey) throws BadPaddingException,
 			IllegalBlockSizeException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException {
-		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding"); //depends on the RSA module used
+		Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding"); // depends on the RSA module used
 		cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 		return cipher.doFinal(data.getBytes());
 	}
 
 	/**
-	 * Function that encrypt a string using the public key and the RSA algorithm and return the encrypted string
+	 * Function that encrypt a string using the public key and the RSA algorithm and
+	 * return the encrypted string
+	 * 
 	 * @param data
 	 * @param publicKey
 	 * @return
@@ -92,7 +110,9 @@ public class Security {
 	}
 
 	/**
-	 * Function that decrypt the encrypted byte (RSA) using the private key using Byte in parameter
+	 * Function that decrypt the encrypted byte (RSA) using the private key using
+	 * Byte in parameter
+	 * 
 	 * @param data
 	 * @param privateKey
 	 * @return
@@ -110,7 +130,9 @@ public class Security {
 	}
 
 	/**
-	 * Function that decrypt the encrypted string (RSA) using the private key using string in parameter
+	 * Function that decrypt the encrypted string (RSA) using the private key using
+	 * string in parameter
+	 * 
 	 * @param data
 	 * @param key
 	 * @return
